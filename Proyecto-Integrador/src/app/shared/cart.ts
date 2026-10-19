@@ -1,16 +1,33 @@
 import { Injectable, signal } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class CartService {
-  items: any[] = [];
+    items: any[] = [];
 
-  cartCount = signal(0);
+    cartCount = signal(0);
 
-  addToCart(game: any) {
-    this.items.push(game);
-    this.cartCount.set(this.items.length);
-    console.log('Juego añadido:', game.title);
-  }
+    constructor() {
+        if (typeof localStorage !== 'undefined') {
+            const carritoGuardado = localStorage.getItem('miCarrito');
+
+            if (carritoGuardado) {
+                this.items = JSON.parse(carritoGuardado);
+                this.cartCount.set(this.items.length);
+            }
+        }
+    }
+
+    addToCart(game: any) {
+        this.items.push(game);
+        this.cartCount.set(this.items.length);
+        console.log('Juego añadido:', game.title);
+
+        if (typeof localStorage !== 'undefined') {
+            localStorage.setItem('miCarrito', JSON.stringify(this.items));
+        }
+
+        console.log('Juego añadido: ', game.title);
+    }
 }

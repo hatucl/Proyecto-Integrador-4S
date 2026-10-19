@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { CartService } from '../cart';
+import { RouterLink } from '@angular/router';
 
 @Component({
   standalone: true,
-  imports: [],
+  imports: [RouterLink],
   selector: 'app-navbar',
   styleUrl: './navbar.scss',
   templateUrl: './navbar.html',

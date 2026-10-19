@@ -1,0 +1,47 @@
+<div class="container mt-5 text-white">
+  <h2 class="mb-4">Resumen de tu Reserva</h2>
+
+  @if (items.length > 0) {
+    <div class="row g-5">
+      <div class="col-12 col-lg-8">
+        @for (item of items; track item.id) {
+          <div class="d-flex align-items-center mb-3 p-3 rounded-3" style="background-color: #1a1a1a; border: 1px solid #333;">
+            <img [src]="item.image" alt="Portada" style="width: 80px; height: 100px; object-fit: cover;" class="rounded-2 me-4">
+            <div class="flex-grow-1">
+              <h5 class="mb-1 fw-bold">{{ item.title }}</h5>
+              <p class="text-secondary mb-0">{{ item.genre }}</p>
+            </div>
+            <div class="fs-4 fw-bold text-primary">
+              ${{ item.price }}
+            </div>
+          </div>
+        }
+      </div>
+
+      <div class="col-12 col-lg-4">
+        <div class="p-4 rounded-4 sticky-top" style="background-color: #1a1a1a; border: 1px solid #333; top: 20px;">
+          <h4 class="mb-4">Total a Pagar</h4>
+          <div class="d-flex justify-content-between mb-2 fs-5">
+            <span>Subtotal</span>
+            <span>${{ total }}</span>
+          </div>
+          <div class="d-flex justify-content-between mb-4 fs-5 text-secondary">
+            <span>Servicio</span>
+            <span>$0</span>
+          </div>
+          <hr class="border-secondary">
+          <div class="d-flex justify-content-between mb-4 display-6 fw-bold text-primary">
+            <span>Total</span>
+            <span>${{ total }}</span>
+          </div>
+          <button class="btn btn-primary btn-lg w-100">Confirmar Reserva</button>
+        </div>
+      </div>
+    </div>
+  } @else {
+    <div class="text-center py-5">
+      <h3 class="text-secondary mb-4">No tienes juegos en tu reserva</h3>
+      <button routerLink="/" class="btn btn-outline-primary btn-lg">Explorar Catálogo</button>
+    </div>
+  }
+</div>
