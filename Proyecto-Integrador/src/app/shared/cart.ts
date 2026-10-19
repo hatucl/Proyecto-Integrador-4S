@@ -30,4 +30,21 @@ export class CartService {
 
         console.log('Juego añadido: ', game.title);
     }
+
+    removeFromCart(index: number) {
+        this.items.splice(index, 1);
+        this.cartCount.set(this.items.length);
+
+        if (typeof localStorage !== 'undefined') {
+            localStorage.setItem('miCarrito', JSON.stringify(this.items));
+        }
+    }
+
+    clearCart() {
+        this.items = [];
+        this.cartCount.set(0);
+        if (typeof localStorage !== 'undefined') {
+            localStorage.removeItem('miCarrito');
+        }
+    }
 }
