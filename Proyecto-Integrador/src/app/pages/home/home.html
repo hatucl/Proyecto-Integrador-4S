@@ -1,33 +1,97 @@
-<div class="p-5 mb-5 rounded-4" style="background-color: #1a1a1a; border: 1px solid #333;">
-    <div class="container-fluid py-4">
-        <h1 class="display-5 fw-bold text-white mb-3">Lanzamientos Exclusivos</h1>
-        <p class="fs-5 text-secondary mb-4 col-md-8">Asegura tu copia de los juegos más esperados del año. Reserva
-            ahora, evita las filas virtuales y obtén contenido adicional exclusivo.</p>
-        <button class="btn btn-primary btn-lg">Ver catálogo completo</button>
-    </div>
-</div>
+<div class="container py-5 text-white">
+  <div class="text-center mb-5">
+    <span class="badge bg-primary mb-2 px-3 py-2">BOLETERÍA Y ESPECTÁCULOS 2026</span>
+    <h1 class="display-5 fw-bold">Eventos Disponibles</h1>
+    <p class="text-secondary">Reserva tus entradas para los mejores espectáculos y torneos del país</p>
+  </div>
 
-<h3 class="text-white mb-4">Tendencias</h3>
+  @if (mensajeExito()) {
+    <div class="alert alert-success text-center fw-semibold">{{ mensajeExito() }}</div>
+  }
+  @if (mensajeError()) {
+    <div class="alert alert-danger text-center fw-semibold">{{ mensajeError() }}</div>
+  }
 
-<div class="row g-4">
-
-    @for (game of games; track game.id) {
-    <div class="col-12 col-md-6 col-lg-4">
-        <div class="card h-100 shadow-sm" style="background-color: #1a1a1a; border: 1px solid #333;">
-
-            <img [src]="game.image" class="card-img-top" alt="Portada del juego">
-
-            <div class="card-body d-flex flex-column">
-                <h5 class="card-title text-primary fw-bold">{{ game.title }}</h5>
-                <p class="card-text text-secondary mb-4">{{ game.genre }}</p>
-
-                <div class="mt-auto d-flex justify-content-between align-items-center">
-                    <span class="fs-4 fw-bold text-white">${{ game.price }}</span>
-                    <button [routerLink]="['/game', game.id]" class="btn btn-outline-light">Reservar</button>
-                </div>
+  <div class="row g-4">
+    @for (evento of eventos(); track evento.codigo_evento) {
+      <div class="col-md-6 col-lg-4">
+        <div class="card h-100 rounded-4 shadow text-white" style="background-color: #1a1a1a; border: 1px solid #333;">
+          <div class="card-body d-flex flex-column p-4">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <span class="badge bg-dark border border-secondary text-info">{{ evento.codigo_evento }}</span>
+              <span class="badge"
+                [class.bg-success]="evento.estado === 'En Boletería'"
+                [class.bg-primary]="evento.estado === 'Programado'"
+                [class.bg-warning]="evento.estado === 'En Vivo'"
+                [class.bg-secondary]="evento.estado === 'Finalizado'"
+                [class.bg-danger]="evento.estado === 'Cancelado'">
+                {{ evento.estado }}
+              </span>
             </div>
-        </div>
-    </div>
-    }
 
+            <h4 class="fw-bold mt-2">{{ evento.nombre }}</h4>
+            <p class="text-secondary small flex-grow-1">{{ evento.descripcion }}</p>
+
+            <ul class="list-unstyled small text-light border-top border-bottom border-secondary py-3 my-3">
+              <li class="mb-1">📍 <strong>Lugar:</strong> {{ evento.teatro }} ({{ evento.nombre_ciudad }})</li>
+              <li class="mb-1">📅 <strong>Inicio:</strong> {{ evento.fecha_inicio | date:'medium' }}</li>
+              <li class="mb-1">👥 <strong>Capacidad:</strong> {{ evento.capacidad_total }} personas</li>
+              <li>💵 <strong>Entrada base:</strong> <span class="text-success fw-bold">${{ evento.precio_base | number }}</span></li>
+            </ul>
+
+            <button (click)="abrirModalReserva(evento)"
+                    [disabled]="evento.estado === 'Cancelado' || evento.estado === 'Finalizado'"
+                    class="btn btn-primary w-100 fw-semibold">
+              {{ evento.estado === 'Cancelado' ? 'Evento Cancelado' : 'Reservar Entradas' }}
+            </button>
+          </div>
+        </div>
+      </div>
+    } @empty {
+      <div class="col-12 text-center py-5 text-secondary">
+        No hay eventos registrados en este momento.
+      </div>
+    }
+  </div>
+
+  <!-- Modal de Reserva Directa -->
+  @if (eventoSeleccionado(); as ev) {
+    <div class="modal d-block" style="background: rgba(0,0,0,0.8);">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-dark text-white border-secondary rounded-4">
+          <div class="modal-header border-secondary">
+            <h5 class="modal-title fw-bold text-primary">Reservar: {{ ev.nombre }}</h5>
+            <button type="button" class="btn-close btn-close-white" (click)="cerrarModal()"></button>
+          </div>
+          <div class="modal-body">
+            <p class="small text-secondary mb-3">
+              📍 {{ ev.teatro }} — {{ ev.nombre_ciudad }} <br>
+              💵 Precio unitario: <strong>${{ ev.precio_base | number }}</strong>
+            </p>
+
+            <div class="mb-3">
+              <label class="form-label">Número de Entradas</label>
+              <input type="number" min="1" [max]="ev.capacidad_total" [(ngModel)]="cantidadEntradas"
+                     class="form-control bg-black text-white border-secondary">
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Observaciones (opcional)</label>
+              <input type="text" [(ngModel)]="observacionesReserva" placeholder="Ej. Ubicación preferida..."
+                     class="form-control bg-black text-white border-secondary">
+            </div>
+
+            <div class="p-3 rounded-3 bg-black border border-secondary d-flex justify-content-between align-items-center">
+              <span class="text-secondary">Valor Total a Pagar:</span>
+              <span class="fs-4 fw-bold text-success">${{ (cantidadEntradas * ev.precio_base) | number }}</span>
+            </div>
+          </div>
+          <div class="modal-footer border-secondary">
+            <button type="button" class="btn btn-outline-secondary" (click)="cerrarModal()">Cancelar</button>
+            <button type="button" class="btn btn-primary fw-bold" (click)="confirmarReserva()">Confirmar Reserva</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
 </div>

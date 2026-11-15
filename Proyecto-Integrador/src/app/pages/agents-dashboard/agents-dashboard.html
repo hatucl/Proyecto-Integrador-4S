@@ -1,41 +1,228 @@
 <div class="container py-5 text-white">
-  <div class="d-flex justify-content-between align-items-center mb-4">
+  <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
     <div>
-      <span class="badge bg-warning text-dark mb-1">ÁREA DE AGENTE</span>
-      <h2 class="fw-bold mb-0">Gestión de Catálogo y Preventas</h2>
+      <span class="badge bg-warning text-dark mb-1">PORTAL OPERATIVO</span>
+      <h2 class="fw-bold mb-0">Gestión de Eventos y Reservas</h2>
     </div>
-    <button class="btn btn-primary">+ Nuevo Videojuego</button>
+
+    <div class="btn-group">
+      <button (click)="vistaActiva.set('eventos')" class="btn"
+        [class.btn-primary]="vistaActiva() === 'eventos'"
+        [class.btn-outline-secondary]="vistaActiva() !== 'eventos'">
+        🎟️ Eventos ({{ eventos().length }})
+      </button>
+      <button (click)="vistaActiva.set('reservas')" class="btn"
+        [class.btn-primary]="vistaActiva() === 'reservas'"
+        [class.btn-outline-secondary]="vistaActiva() !== 'reservas'">
+        📋 Reservas ({{ reservas().length }})
+      </button>
+    </div>
   </div>
 
-  <div class="card p-4 shadow rounded-4" style="background-color: #1a1a1a; border: 1px solid #333;">
-    <div class="table-responsive">
-      <table class="table table-dark table-hover align-middle mb-0">
-        <thead>
-          <tr class="text-secondary">
-            <th>ID</th>
-            <th>Título del Juego</th>
-            <th>Precio</th>
-            <th>Stock</th>
-            <th>Estado</th>
-            <th class="text-end">Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (juego of juegosInventario; track juego.id) {
-            <tr>
-              <td>#{{ juego.id }}</td>
-              <td class="fw-semibold">{{ juego.titulo }}</td>
-              <td>${{ juego.precio }}</td>
-              <td>{{ juego.stock }} uds.</td>
-              <td><span class="badge bg-info text-dark">{{ juego.estado }}</span></td>
-              <td class="text-end">
-                <button class="btn btn-sm btn-outline-warning me-2">Editar</button>
-                <button class="btn btn-sm btn-outline-danger">Eliminar</button>
-              </td>
-            </tr>
-          }
-        </tbody>
-      </table>
+  @if (mensaje()) {
+    <div class="alert alert-success text-center fw-semibold">{{ mensaje() }}</div>
+  }
+  @if (errorMsg()) {
+    <div class="alert alert-danger text-center fw-semibold">{{ errorMsg() }}</div>
+  }
+
+  <!-- ================= SECCIÓN 1: CRUD EVENTOS ================= -->
+  @if (vistaActiva() === 'eventos') {
+    <div class="d-flex justify-content-end mb-3">
+      <button (click)="abrirNuevoEvento()" class="btn btn-success fw-bold">
+        + Registrar Nuevo Evento
+      </button>
     </div>
-  </div>
+
+    <!-- Formulario Crear / Editar Evento -->
+    @if (mostrarFormulario()) {
+      <div class="card p-4 mb-4 rounded-4 shadow" style="background-color: #1a1a1a; border: 1px solid #444;">
+        <h4 class="text-primary fw-bold mb-3">
+          {{ modoEdicion() ? 'Editar Evento' : 'Registrar Nuevo Evento' }}
+        </h4>
+
+        <form [formGroup]="eventoForm" (ngSubmit)="guardarEvento()">
+          <div class="row g-3 mb-3">
+            <div class="col-md-3">
+              <label class="form-label">Código Único</label>
+              <input type="text" class="form-control bg-dark text-white border-secondary" formControlName="codigo_evento" placeholder="EVT-003">
+            </div>
+            <div class="col-md-5">
+              <label class="form-label">Nombre del Evento</label>
+              <input type="text" class="form-control bg-dark text-white border-secondary" formControlName="nombre">
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Estado</label>
+              <select class="form-select bg-dark text-white border-secondary" formControlName="estado">
+                <option value="Programado">Programado</option>
+                <option value="En Boletería">En Boletería</option>
+                <option value="En Vivo">En Vivo</option>
+                <option value="Finalizado">Finalizado</option>
+                <option value="Cancelado">Cancelado</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Descripción</label>
+            <textarea rows="2" class="form-control bg-dark text-white border-secondary" formControlName="descripcion"></textarea>
+          </div>
+
+          <div class="row g-3 mb-3">
+            <div class="col-md-6">
+              <label class="form-label">Teatro / Escenario</label>
+              <input type="text" class="form-control bg-dark text-white border-secondary" formControlName="teatro">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Ciudad de Realización</label>
+              <select class="form-select bg-dark text-white border-secondary" formControlName="id_ciudad">
+                <option value="">Selecciona ciudad...</option>
+                @for (c of ciudades(); track c.id_ciudad) {
+                  <option [value]="c.id_ciudad">{{ c.nombre }} ({{ c.nombre_departamento }})</option>
+                }
+              </select>
+            </div>
+          </div>
+
+          <div class="row g-3 mb-3">
+            <div class="col-md-3">
+              <label class="form-label">Fecha/Hora Inicio</label>
+              <input type="datetime-local" class="form-control bg-dark text-white border-secondary" formControlName="fecha_inicio">
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Fecha/Hora Fin</label>
+              <input type="datetime-local" class="form-control bg-dark text-white border-secondary" formControlName="fecha_fin">
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Capacidad Total</label>
+              <input type="number" class="form-control bg-dark text-white border-secondary" formControlName="capacidad_total">
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Precio Base ($)</label>
+              <input type="number" class="form-control bg-dark text-white border-secondary" formControlName="precio_base">
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label">Observaciones / Causa de cancelación</label>
+            <input type="text" class="form-control bg-dark text-white border-secondary" formControlName="observaciones">
+          </div>
+
+          <div class="d-flex justify-content-end gap-2">
+            <button type="button" (click)="mostrarFormulario.set(false)" class="btn btn-outline-secondary">Cancelar</button>
+            <button type="submit" class="btn btn-primary fw-bold" [disabled]="eventoForm.invalid">
+              {{ modoEdicion() ? 'Guardar Cambios' : 'Crear Evento' }}
+            </button>
+          </div>
+        </form>
+      </div>
+    }
+
+    <!-- Tabla de Eventos Registrados -->
+    <div class="card p-4 shadow rounded-4" style="background-color: #1a1a1a; border: 1px solid #333;">
+      <div class="table-responsive">
+        <table class="table table-dark table-hover align-middle mb-0">
+          <thead>
+            <tr class="text-secondary">
+              <th>Código</th>
+              <th>Evento</th>
+              <th>Teatro / Ciudad</th>
+              <th>Fecha Inicio</th>
+              <th>Precio</th>
+              <th>Estado</th>
+              <th class="text-end">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (ev of eventos(); track ev.codigo_evento) {
+              <tr>
+                <td class="text-info fw-bold">{{ ev.codigo_evento }}</td>
+                <td>
+                  <div class="fw-semibold">{{ ev.nombre }}</div>
+                  <small class="text-secondary">Cap: {{ ev.capacidad_total }} pers.</small>
+                </td>
+                <td>{{ ev.teatro }} <br><small class="text-secondary">{{ ev.nombre_ciudad }}</small></td>
+                <td>{{ ev.fecha_inicio | date:'short' }}</td>
+                <td class="text-success fw-bold">${{ ev.precio_base | number }}</td>
+                <td>
+                  <span class="badge"
+                    [class.bg-success]="ev.estado === 'En Boletería'"
+                    [class.bg-primary]="ev.estado === 'Programado'"
+                    [class.bg-warning]="ev.estado === 'En Vivo'"
+                    [class.bg-secondary]="ev.estado === 'Finalizado'"
+                    [class.bg-danger]="ev.estado === 'Cancelado'">
+                    {{ ev.estado }}
+                  </span>
+                </td>
+                <td class="text-end">
+                  <button (click)="editarEvento(ev)" class="btn btn-sm btn-outline-warning me-2">Editar</button>
+                  <button (click)="eliminarEvento(ev.codigo_evento)" class="btn btn-sm btn-outline-danger">Eliminar</button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  }
+
+  <!-- ================= SECCIÓN 2: GESTIÓN DE RESERVAS ================= -->
+  @if (vistaActiva() === 'reservas') {
+    <div class="card p-4 shadow rounded-4" style="background-color: #1a1a1a; border: 1px solid #333;">
+      <h4 class="text-primary fw-bold mb-3">Administración de Reservas Solicitadas</h4>
+      <div class="table-responsive">
+        <table class="table table-dark table-hover align-middle mb-0">
+          <thead>
+            <tr class="text-secondary">
+              <th>#ID</th>
+              <th>Cliente</th>
+              <th>Evento</th>
+              <th>Entradas / Total</th>
+              <th>Observaciones</th>
+              <th>Estado Actual</th>
+              <th class="text-end">Cambiar Estado</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (res of reservas(); track res.id_reserva) {
+              <tr>
+                <td>#{{ res.id_reserva }}</td>
+                <td>
+                  <div class="fw-semibold">{{ res.nombre_cliente }}</div>
+                  <small class="text-secondary">{{ res.correo_cliente }}</small>
+                </td>
+                <td>{{ res.nombre_evento }}</td>
+                <td>
+                  <strong>{{ res.numero_entradas }}</strong> boletas <br>
+                  <span class="text-success fw-bold">${{ res.valor_total | number }}</span>
+                </td>
+                <td><small class="text-info">{{ res.observaciones || 'Sin observaciones' }}</small></td>
+                <td>
+                  <span class="badge"
+                    [class.bg-warning]="res.estado === 'Reservada'"
+                    [class.text-dark]="res.estado === 'Reservada'"
+                    [class.bg-success]="res.estado === 'Confirmada'"
+                    [class.bg-danger]="res.estado === 'Cancelada'">
+                    {{ res.estado }}
+                  </span>
+                </td>
+                <td class="text-end">
+                  <select [ngModel]="res.estado" (ngModelChange)="actualizarEstadoReserva(res, $event)"
+                          class="form-select form-select-sm bg-dark text-white border-secondary d-inline-block w-auto">
+                    <option value="Reservada">Reservada</option>
+                    <option value="Confirmada">Confirmada</option>
+                    <option value="Cancelada">Cancelada</option>
+                  </select>
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="7" class="text-center py-4 text-secondary">No hay reservas registradas aún.</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  }
 </div>

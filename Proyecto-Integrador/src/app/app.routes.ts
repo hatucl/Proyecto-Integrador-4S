@@ -2,7 +2,6 @@ import { inject } from '@angular/core';
 import { Routes, Router } from '@angular/router';
 import { HomeComponent } from './pages/home/home';
 import { GameDetailComponent } from './pages/game-detail/game-detail';
-import { CartComponent } from './pages/cart/cart';
 import { Login } from './pages/login/login';
 import { Registro } from './pages/registro/registro';
 import { StaffPortal } from './pages/staff-portal/staff-portal';
@@ -28,7 +27,6 @@ const roleGuard = (allowedRoles: string[]) => {
 export const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'game/:id', component: GameDetailComponent },
-  { path: 'cart', component: CartComponent },
   { path: 'login', component: Login },
   { path: 'registro', component: Registro },
   { path: 'staff-access', component: StaffPortal },

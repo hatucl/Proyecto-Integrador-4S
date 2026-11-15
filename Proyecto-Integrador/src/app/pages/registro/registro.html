@@ -1,35 +1,67 @@
-<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
-  <div class="card p-4 shadow-lg rounded-4" style="width: 100%; max-width: 400px; background-color: #1a1a1a; border: 1px solid #333;">
-    <div class="text-center mb-4">
-      <h2 class="text-primary fw-bold">Crear Cuenta</h2>
-      <p class="text-secondary">Únete a GameTickets</p>
-    </div>
+<div class="d-flex justify-content-center align-items-center py-5">
+  <div class="card p-4 shadow-lg rounded-4 text-white" style="width: 100%; max-width: 550px; background-color: #1a1a1a; border: 1px solid #333;">
+    <h2 class="text-primary fw-bold text-center mb-1">Crear Cuenta de Cliente</h2>
+    <p class="text-secondary text-center small mb-4">Regístrate para reservar tus entradas</p>
 
     @if (errorMsg) {
-      <div class="alert alert-danger py-2">{{ errorMsg }}</div>
+      <div class="alert alert-danger py-2 text-center">{{ errorMsg }}</div>
     }
 
-    <form [formGroup]="registroForm" (ngSubmit)="registrarse()">
-      <div class="mb-3">
-        <label class="form-label text-white">Nombre Completo</label>
-        <input type="text" class="form-control bg-dark text-white border-secondary" formControlName="nombre" placeholder="Tu nombre">
-      </div>
-      <div class="mb-3">
-        <label class="form-label text-white">Correo Electrónico</label>
-        <input type="email" class="form-control bg-dark text-white border-secondary" formControlName="correo" placeholder="correo@ejemplo.com">
-      </div>
-      <div class="mb-4">
-        <label class="form-label text-white">Contraseña (mín. 6 caracteres)</label>
-        <input type="password" class="form-control bg-dark text-white border-secondary" formControlName="password" placeholder="******">
+    <form [formGroup]="registroForm" (ngSubmit)="registrar()">
+      <div class="row g-3 mb-3">
+        <div class="col-md-5">
+          <label class="form-label">Cédula / Pasaporte</label>
+          <input type="text" class="form-control bg-dark text-white border-secondary" formControlName="identificacion">
+        </div>
+        <div class="col-md-7">
+          <label class="form-label">Nombre Completo</label>
+          <input type="text" class="form-control bg-dark text-white border-secondary" formControlName="nombre_completo">
+        </div>
       </div>
 
-      <button type="submit" class="btn btn-primary btn-lg w-100 mb-3" [disabled]="registroForm.invalid">
+      <div class="row g-3 mb-3">
+        <div class="col-md-6">
+          <label class="form-label">Correo Electrónico</label>
+          <input type="email" class="form-control bg-dark text-white border-secondary" formControlName="correo">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Contraseña (mín. 6)</label>
+          <input type="password" class="form-control bg-dark text-white border-secondary" formControlName="password">
+        </div>
+      </div>
+
+      <div class="row g-3 mb-3">
+        <div class="col-md-6">
+          <label class="form-label">Ciudad</label>
+          <select class="form-select bg-dark text-white border-secondary" formControlName="id_ciudad">
+            <option value="">Selecciona ciudad...</option>
+            @for (c of ciudades; track c.id_ciudad) {
+              <option [value]="c.id_ciudad">{{ c.nombre }} ({{ c.nombre_departamento }})</option>
+            }
+          </select>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Dirección</label>
+          <input type="text" class="form-control bg-dark text-white border-secondary" formControlName="direccion">
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Teléfonos (separados por coma)</label>
+        <input type="text" class="form-control bg-dark text-white border-secondary" formControlName="telefonos" placeholder="3001234567, 6022281111">
+      </div>
+
+      <div class="form-check mb-4">
+        <input class="form-check-input" type="checkbox" formControlName="recibir_publicidad" id="pubCheck">
+        <label class="form-check-label text-secondary" for="pubCheck">Deseo recibir publicidad y promociones de eventos</label>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-lg w-100" [disabled]="registroForm.invalid">
         Registrarme
       </button>
 
-      <div class="text-center mt-2">
-        <span class="text-secondary">¿Ya tienes cuenta? </span>
-        <a routerLink="/login" class="text-primary text-decoration-none fw-bold">Inicia sesión</a>
+      <div class="text-center mt-3">
+        <a routerLink="/login" class="text-secondary text-decoration-none">¿Ya tienes cuenta? Inicia sesión</a>
       </div>
     </form>
   </div>

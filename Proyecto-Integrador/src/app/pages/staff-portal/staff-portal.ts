@@ -21,17 +21,17 @@ export class StaffPortal {
   ingresarStaff() {
     if (this.staffForm.valid) {
       const { correo, password } = this.staffForm.value;
-      const usuario = this.authService.loginStaff(correo!, password!);
-
-      if (usuario) {
-        if (usuario.role === 'admin') {
-          this.router.navigate(['/admin']);
-        } else if (usuario.role === 'agent') {
-          this.router.navigate(['/agent']);
+      this.authService.login(correo!, password!).subscribe({
+        next: (usuario) => {
+          if (usuario.role === 'admin') this.router.navigate(['/admin']);
+          else if (usuario.role === 'agent') this.router.navigate(['/agent']);
+          else this.router.navigate(['/']);
+        },
+        error: () => {
+          this.errorMsg = 'Credenciales incorrectas o usuario no registrado.';
         }
-      } else {
-        this.errorMsg = 'Acceso denegado. Credenciales internas inválidas.';
-      }
+      });
     }
+  
   }
 }

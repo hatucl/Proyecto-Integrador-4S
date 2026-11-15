@@ -1,18 +1,16 @@
 import { Injectable, signal, afterNextRender } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { Observable, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService { 
+export class AuthService {
+  private apiUrl = 'http://localhost:3000/api';
   currentUser = signal<any>(null);
 
-  private staffUsers = [
-    { nombre: 'Super Admin', correo: 'admin@gametickets.com', password: 'admin123', role: 'admin' },
-    { nombre: 'Agente Ventas', correo: 'agente@gametickets.com', password: 'agente123', role: 'agent' }
-  ];
-
-  constructor(private router: Router) {
+  constructor(private http: HttpClient, private router: Router) {
     afterNextRender(() => {
       const savedUser = localStorage.getItem('sesionActiva');
       if (savedUser) {
@@ -21,52 +19,23 @@ export class AuthService {
     });
   }
 
-  registrarCliente(datos: { nombre: string, correo: string, password: string }): boolean {
-    if (typeof localStorage === 'undefined') return false;
-
-    const clientesGuardados = JSON.parse(localStorage.getItem('usuariosRegistrados') || '[]');
-    
-    const existe = clientesGuardados.some((u: any) => u.correo === datos.correo);
-    if (existe) return false;
-
-    const nuevoCliente = { ...datos, role: 'client' };
-    clientesGuardados.push(nuevoCliente);
-    localStorage.setItem('usuariosRegistrados', JSON.stringify(clientesGuardados));
-    return true;
-  }
-
-  loginCliente(correo: string, password: string): boolean {
-    if (typeof localStorage === 'undefined') return false;
-
-    const clientesGuardados = JSON.parse(localStorage.getItem('usuariosRegistrados') || '[]');
-    const usuarioEncontrado = clientesGuardados.find(
-      (u: any) => u.correo === correo && u.password === password
+  login(correo: string, password: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/auth/login`, { correo, password }).pipe(
+      tap((usuario) => {
+        this.currentUser.set(usuario);
+        if (typeof localStorage !== 'undefined') {
+          localStorage.setItem('sesionActiva', JSON.stringify(usuario));
+        }
+      })
     );
-
-    if (usuarioEncontrado) {
-      this.establecerSesion(usuarioEncontrado);
-      return true;
-    }
-    return false;
   }
 
-  loginStaff(correo: string, password: string): any {
-    const staffEncontrado = this.staffUsers.find(
-      (u) => u.correo === correo && u.password === password
-    );
-
-    if (staffEncontrado) {
-      this.establecerSesion(staffEncontrado);
-      return staffEncontrado;
-    }
-    return null;
+  registrarCliente(datos: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/clientes`, datos);
   }
 
-  private establecerSesion(usuario: any) {
-    this.currentUser.set(usuario);
-    if (typeof localStorage !== 'undefined') {
-      localStorage.setItem('sesionActiva', JSON.stringify(usuario));
-    }
+  registrarAgente(datos: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/agentes`, datos);
   }
 
   cerrarSesion() {

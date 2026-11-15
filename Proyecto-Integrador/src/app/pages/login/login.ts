@@ -23,13 +23,16 @@ export class Login {
   iniciarSesion() {
     if (this.loginForm.valid) {
       const { correo, password } = this.loginForm.value;
-      const acceso = this.authService.loginCliente(correo!, password!);
-
-      if (acceso) {
-        this.router.navigate(['/']);
-      } else {
-        this.errorMsg = 'Credenciales incorrectas o usuario no registrado.';
-      }
+      this.authService.login(correo!, password!).subscribe({
+        next: (usuario) => {
+          if (usuario.role === 'admin') this.router.navigate(['/admin']);
+          else if (usuario.role === 'agent') this.router.navigate(['/agent']);
+          else this.router.navigate(['/']);
+        },
+        error: () => {
+          this.errorMsg = 'Credenciales incorrectas o usuario no registrado.';
+        }
+      });
     }
   }
 }

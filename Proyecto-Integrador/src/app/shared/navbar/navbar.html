@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #0a0a0a;">
   <div class="container">
-    <a class="navbar-brand text-primary fw-bold" routerLink="/">GameTickets</a>
+    <a class="navbar-brand text-primary fw-bold" routerLink="/">EventTickets</a>
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
       <span class="navbar-toggler-icon"></span>
@@ -9,53 +9,52 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto align-items-center">
         <li class="nav-item">
-          <a class="nav-link active" routerLink="/">Inicio</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Lanzamientos</a>
-        </li>
-        <li class="nav-item">
-          <a routerLink="/cart" class="btn btn-outline-primary ms-lg-3 mt-2 mt-lg-0">
-            Mis Reservas
-            <span class="badge bg-primary text-white ms-1">{{ cartService.cartCount() }}</span>
-          </a>
+          <a class="nav-link active" routerLink="/">Eventos</a>
         </li>
 
         @if (authService.currentUser(); as user) {
-        <li class="nav-item dropdown ms-lg-3 mt-2 mt-lg-0 position-relative">
-          <button type="button" (click)="toggleMenu()"
-            class="btn btn-outline-light px-3 d-flex align-items-center gap-2 dropdown-toggle">
-            <span>👤</span>
-            <span>{{ user.nombre }}</span>
-          </button>
-
-          <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end border-secondary shadow"
-            [class.show]="menuAbierto" style="position: absolute; right: 0; top: 100%; z-index: 1050;">
-            <li><span class="dropdown-header text-primary text-uppercase fw-bold">{{ user.role }}</span></li>
-            <li><a class="dropdown-item" routerLink="/perfil" (click)="menuAbierto = false">Mi Perfil y Reservas</a>
+          @if (user.role === 'client') {
+            <li class="nav-item">
+              <a routerLink="/perfil" class="btn btn-outline-primary ms-lg-3 mt-2 mt-lg-0">
+                Mis Reservas
+              </a>
             </li>
+          }
 
-            @if (user.role === 'agent' || user.role === 'admin') {
-            <li><a class="dropdown-item text-warning" routerLink="/agent" (click)="menuAbierto = false">Panel de
-                Gestión</a></li>
-            }
+          <li class="nav-item dropdown ms-lg-3 mt-2 mt-lg-0 position-relative">
+            <button type="button" (click)="toggleMenu()"
+              class="btn btn-outline-light px-3 d-flex align-items-center gap-2 dropdown-toggle">
+              <span>👤</span>
+              <span>{{ user.nombre_completo }}</span>
+            </button>
 
-            <li>
-              <hr class="dropdown-divider border-secondary">
-            </li>
-            <li>
-              <button type="button" (click)="salir()" class="dropdown-item text-danger fw-bold">
-                Cerrar Sesión
-              </button>
-            </li>
-          </ul>
-        </li>
+            <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end border-secondary shadow"
+              [class.show]="menuAbierto" style="position: absolute; right: 0; top: 100%; z-index: 1050;">
+              <li><span class="dropdown-header text-primary text-uppercase fw-bold">{{ user.role }}</span></li>
+              <li><a class="dropdown-item" routerLink="/perfil" (click)="menuAbierto = false">Mi Perfil y Reservas</a></li>
+
+              @if (user.role === 'agent' || user.role === 'admin') {
+                <li><a class="dropdown-item text-warning" routerLink="/agent" (click)="menuAbierto = false">Gestión de Eventos y Reservas</a></li>
+              }
+
+              @if (user.role === 'admin') {
+                <li><a class="dropdown-item text-info" routerLink="/admin" (click)="menuAbierto = false">Dashboard de Reportes</a></li>
+              }
+
+              <li><hr class="dropdown-divider border-secondary"></li>
+              <li>
+                <button type="button" (click)="salir()" class="dropdown-item text-danger fw-bold">
+                  Cerrar Sesión
+                </button>
+              </li>
+            </ul>
+          </li>
         } @else {
-        <li class="nav-item">
-          <a routerLink="/login" class="btn btn-primary ms-lg-3 mt-2 mt-lg-0">
-            Iniciar Sesión
-          </a>
-        </li>
+          <li class="nav-item">
+            <a routerLink="/login" class="btn btn-primary ms-lg-3 mt-2 mt-lg-0">
+              Iniciar Sesión
+            </a>
+          </li>
         }
       </ul>
     </div>
