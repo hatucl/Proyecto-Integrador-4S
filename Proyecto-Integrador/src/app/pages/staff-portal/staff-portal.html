@@ -1,0 +1,28 @@
+<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+  <div class="card p-4 shadow-lg rounded-4" style="width: 100%; max-width: 400px; background-color: #121212; border: 1px solid #dc3545;">
+    <div class="text-center mb-4">
+      <span class="badge bg-danger mb-2">USO INTERNO</span>
+      <h3 class="text-white fw-bold">Portal Corporativo</h3>
+      <p class="text-secondary small">Acceso exclusivo para Agentes y Administradores</p>
+    </div>
+
+    @if (errorMsg) {
+      <div class="alert alert-danger py-2">{{ errorMsg }}</div>
+    }
+
+    <form [formGroup]="staffForm" (ngSubmit)="ingresarStaff()">
+      <div class="mb-3">
+        <label class="form-label text-white">ID Corporativo (Correo)</label>
+        <input type="email" class="form-control bg-dark text-white border-secondary" formControlName="correo" placeholder="agente@gametickets.com">
+      </div>
+      <div class="mb-4">
+        <label class="form-label text-white">Clave de Seguridad</label>
+        <input type="password" class="form-control bg-dark text-white border-secondary" formControlName="password">
+      </div>
+
+      <button type="submit" class="btn btn-danger btn-lg w-100" [disabled]="staffForm.invalid">
+        Autenticar Personal
+      </button>
+    </form>
+  </div>
+</div>

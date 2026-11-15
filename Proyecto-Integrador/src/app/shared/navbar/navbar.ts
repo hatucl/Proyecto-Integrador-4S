@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CartService } from '../cart';
 import { RouterLink } from '@angular/router';
+import { AuthService } from '../auth';
 
 @Component({
   standalone: true,
@@ -10,5 +11,20 @@ import { RouterLink } from '@angular/router';
   templateUrl: './navbar.html',
 })
 export class Navbar {
-  constructor(public cartService: CartService) {}
+
+  menuAbierto = false;
+
+  constructor(
+    public cartService: CartService, 
+    public authService: AuthService
+  ) {}
+
+  toggleMenu() {
+    this.menuAbierto = !this.menuAbierto;
+  }
+
+  salir() {
+    this.menuAbierto = false;
+    this.authService.cerrarSesion(); 
+  }
 }

@@ -20,6 +20,43 @@
             <span class="badge bg-primary text-white ms-1">{{ cartService.cartCount() }}</span>
           </a>
         </li>
+
+        @if (authService.currentUser(); as user) {
+        <li class="nav-item dropdown ms-lg-3 mt-2 mt-lg-0 position-relative">
+          <button type="button" (click)="toggleMenu()"
+            class="btn btn-outline-light px-3 d-flex align-items-center gap-2 dropdown-toggle">
+            <span>👤</span>
+            <span>{{ user.nombre }}</span>
+          </button>
+
+          <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end border-secondary shadow"
+            [class.show]="menuAbierto" style="position: absolute; right: 0; top: 100%; z-index: 1050;">
+            <li><span class="dropdown-header text-primary text-uppercase fw-bold">{{ user.role }}</span></li>
+            <li><a class="dropdown-item" routerLink="/perfil" (click)="menuAbierto = false">Mi Perfil y Reservas</a>
+            </li>
+
+            @if (user.role === 'agent' || user.role === 'admin') {
+            <li><a class="dropdown-item text-warning" routerLink="/agent" (click)="menuAbierto = false">Panel de
+                Gestión</a></li>
+            }
+
+            <li>
+              <hr class="dropdown-divider border-secondary">
+            </li>
+            <li>
+              <button type="button" (click)="salir()" class="dropdown-item text-danger fw-bold">
+                Cerrar Sesión
+              </button>
+            </li>
+          </ul>
+        </li>
+        } @else {
+        <li class="nav-item">
+          <a routerLink="/login" class="btn btn-primary ms-lg-3 mt-2 mt-lg-0">
+            Iniciar Sesión
+          </a>
+        </li>
+        }
       </ul>
     </div>
   </div>

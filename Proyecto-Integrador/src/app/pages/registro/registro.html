@@ -1,0 +1,36 @@
+<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+  <div class="card p-4 shadow-lg rounded-4" style="width: 100%; max-width: 400px; background-color: #1a1a1a; border: 1px solid #333;">
+    <div class="text-center mb-4">
+      <h2 class="text-primary fw-bold">Crear Cuenta</h2>
+      <p class="text-secondary">Únete a GameTickets</p>
+    </div>
+
+    @if (errorMsg) {
+      <div class="alert alert-danger py-2">{{ errorMsg }}</div>
+    }
+
+    <form [formGroup]="registroForm" (ngSubmit)="registrarse()">
+      <div class="mb-3">
+        <label class="form-label text-white">Nombre Completo</label>
+        <input type="text" class="form-control bg-dark text-white border-secondary" formControlName="nombre" placeholder="Tu nombre">
+      </div>
+      <div class="mb-3">
+        <label class="form-label text-white">Correo Electrónico</label>
+        <input type="email" class="form-control bg-dark text-white border-secondary" formControlName="correo" placeholder="correo@ejemplo.com">
+      </div>
+      <div class="mb-4">
+        <label class="form-label text-white">Contraseña (mín. 6 caracteres)</label>
+        <input type="password" class="form-control bg-dark text-white border-secondary" formControlName="password" placeholder="******">
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-lg w-100 mb-3" [disabled]="registroForm.invalid">
+        Registrarme
+      </button>
+
+      <div class="text-center mt-2">
+        <span class="text-secondary">¿Ya tienes cuenta? </span>
+        <a routerLink="/login" class="text-primary text-decoration-none fw-bold">Inicia sesión</a>
+      </div>
+    </form>
+  </div>
+</div>
