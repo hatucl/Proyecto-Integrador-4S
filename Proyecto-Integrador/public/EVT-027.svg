@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 320" width="800" height="320" role="img" aria-label="Stand Up: Gira Nacional - Fecha Barranquilla">
+<rect width="800" height="320" fill="#4a2147"/>
+<circle cx="-30" cy="66" r="190" fill="#c4609c" fill-opacity="0.1"/>
+<circle cx="807" cy="-6" r="138" fill="#c4609c" fill-opacity="0.18"/>
+<circle cx="138" cy="108" r="162" fill="#c4609c" fill-opacity="0.18"/>
+<circle cx="19" cy="177" r="60" fill="#c4609c" fill-opacity="0.14"/>
+<rect x="245" y="-40" width="52" height="400" transform="rotate(25 245 160.0)" fill="#c4609c" fill-opacity="0.08"/>
+<rect x="474" y="-40" width="65" height="400" transform="rotate(25 474 160.0)" fill="#c4609c" fill-opacity="0.08"/>
+<text x="400.0" y="165" text-anchor="middle" font-size="108">🎙️</text>
+<text x="400.0" y="232" text-anchor="middle" font-family="Outfit, Inter, Arial, sans-serif" font-size="30" font-weight="700" fill="#ffffff" fill-opacity="0.92">Stand Up</text>
+</svg>

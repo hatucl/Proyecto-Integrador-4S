@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 320" width="800" height="320" role="img" aria-label="Concierto Sinfónico Gamer">
+<rect width="800" height="320" fill="#2e1f57"/>
+<circle cx="81" cy="332" r="71" fill="#7c5cd6" fill-opacity="0.1"/>
+<circle cx="792" cy="116" r="73" fill="#7c5cd6" fill-opacity="0.14"/>
+<circle cx="291" cy="285" r="97" fill="#7c5cd6" fill-opacity="0.14"/>
+<circle cx="308" cy="6" r="116" fill="#7c5cd6" fill-opacity="0.14"/>
+<rect x="79" y="-40" width="53" height="400" transform="rotate(25 79 160.0)" fill="#7c5cd6" fill-opacity="0.08"/>
+<rect x="3" y="-40" width="57" height="400" transform="rotate(25 3 160.0)" fill="#7c5cd6" fill-opacity="0.08"/>
+<text x="400.0" y="165" text-anchor="middle" font-size="108">🎻</text>
+<text x="400.0" y="220" text-anchor="middle" font-family="Outfit, Inter, Arial, sans-serif" font-size="30" font-weight="700" fill="#ffffff" fill-opacity="0.92">Concierto Sinfónico</text><text x="400.0" y="254" text-anchor="middle" font-family="Outfit, Inter, Arial, sans-serif" font-size="30" font-weight="700" fill="#ffffff" fill-opacity="0.92">Gamer</text>
+</svg>

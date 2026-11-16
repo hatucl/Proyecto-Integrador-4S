@@ -1,30 +1,24 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { API_URL } from './api.config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
-  private baseUrl = 'http://localhost:3000/api';
+  private baseUrl = API_URL;
 
   constructor(private http: HttpClient) {}
 
+  // Localización
   getCiudades(): Observable<any[]> {
     return this.http.get<any[]>(`${this.baseUrl}/localizacion/ciudades`);
   }
-  getPaises(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/localizacion/paises`);
-  }
-  getDepartamentos(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/localizacion/departamentos`);
-  }
 
+  // Eventos
   getEventos(): Observable<any[]> {
     return this.http.get<any[]>(`${this.baseUrl}/eventos`);
-  }
-  getEventoById(codigo: string): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/eventos/${codigo}`);
   }
   createEvento(evento: any): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}/eventos`, evento);
@@ -36,6 +30,7 @@ export class ApiService {
     return this.http.delete<any>(`${this.baseUrl}/eventos/${codigo}`);
   }
 
+  // Reservas
   getReservas(): Observable<any[]> {
     return this.http.get<any[]>(`${this.baseUrl}/reservas`);
   }
@@ -48,10 +43,8 @@ export class ApiService {
   updateReserva(id: number, datos: any): Observable<any> {
     return this.http.put<any>(`${this.baseUrl}/reservas/${id}`, datos);
   }
-  deleteReserva(id: number): Observable<any> {
-    return this.http.delete<any>(`${this.baseUrl}/reservas/${id}`);
-  }
 
+  // Personas
   getClientes(): Observable<any[]> {
     return this.http.get<any[]>(`${this.baseUrl}/clientes`);
   }
@@ -62,6 +55,7 @@ export class ApiService {
     return this.http.delete<any>(`${this.baseUrl}/personas/${id}`);
   }
 
+  // Reportes
   getDashboardReportes(): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/reportes/dashboard`);
   }

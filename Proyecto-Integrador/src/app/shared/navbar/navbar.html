@@ -1,59 +1,76 @@
-<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #0a0a0a;">
+<nav class="navbar navbar-expand-lg navbar-dark navbar-glass">
   <div class="container">
-    <a class="navbar-brand text-primary fw-bold" routerLink="/">EventTickets</a>
+    <a class="brand" routerLink="/">
+      <span class="brand-mark">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M3 9a2 2 0 0 0 0 6v2a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-2a2 2 0 0 1 0-6V7a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1z"/>
+          <path d="M14 6v12" stroke-dasharray="2 2.5"/>
+        </svg>
+      </span>
+      <span class="brand-text">Event<span>Tickets</span></span>
+    </a>
 
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Abrir menú">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto align-items-center">
+      <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
         <li class="nav-item">
-          <a class="nav-link active" routerLink="/">Eventos</a>
+          <a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Eventos</a>
         </li>
 
         @if (authService.currentUser(); as user) {
           @if (user.role === 'client') {
             <li class="nav-item">
-              <a routerLink="/perfil" class="btn btn-outline-primary ms-lg-3 mt-2 mt-lg-0">
-                Mis Reservas
-              </a>
+              <a class="nav-link" routerLink="/perfil" routerLinkActive="active">Mis reservas</a>
+            </li>
+          }
+          @if (user.role === 'agent' || user.role === 'admin') {
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/agent" routerLinkActive="active">Gestión</a>
+            </li>
+          }
+          @if (user.role === 'admin') {
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/admin" routerLinkActive="active">Reportes</a>
             </li>
           }
 
-          <li class="nav-item dropdown ms-lg-3 mt-2 mt-lg-0 position-relative">
-            <button type="button" (click)="toggleMenu()"
-              class="btn btn-outline-light px-3 d-flex align-items-center gap-2 dropdown-toggle">
-              <span>👤</span>
-              <span>{{ user.nombre_completo }}</span>
+          <li class="nav-item position-relative ms-lg-2 mt-2 mt-lg-0">
+            <button type="button" (click)="toggleMenu()" class="btn btn-outline-light d-flex align-items-center gap-2 px-2 pe-3 rounded-pill"
+              [attr.aria-expanded]="menuAbierto()">
+              <span class="avatar">{{ iniciales(user.nombre_completo) }}</span>
+              <span class="small">{{ user.nombre_completo }}</span>
             </button>
 
-            <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end border-secondary shadow"
-              [class.show]="menuAbierto" style="position: absolute; right: 0; top: 100%; z-index: 1050;">
-              <li><span class="dropdown-header text-primary text-uppercase fw-bold">{{ user.role }}</span></li>
-              <li><a class="dropdown-item" routerLink="/perfil" (click)="menuAbierto = false">Mi Perfil y Reservas</a></li>
-
-              @if (user.role === 'agent' || user.role === 'admin') {
-                <li><a class="dropdown-item text-warning" routerLink="/agent" (click)="menuAbierto = false">Gestión de Eventos y Reservas</a></li>
-              }
-
-              @if (user.role === 'admin') {
-                <li><a class="dropdown-item text-info" routerLink="/admin" (click)="menuAbierto = false">Dashboard de Reportes</a></li>
-              }
-
-              <li><hr class="dropdown-divider border-secondary"></li>
-              <li>
-                <button type="button" (click)="salir()" class="dropdown-item text-danger fw-bold">
-                  Cerrar Sesión
-                </button>
-              </li>
-            </ul>
+            @if (menuAbierto()) {
+              <div class="user-menu">
+                <div class="px-3 py-2">
+                  <div class="fw-semibold text-white">{{ user.nombre_completo }}</div>
+                  <div class="small text-secondary">{{ user.correo }}</div>
+                  <span class="role-badge mt-2">{{ user.role === 'agent' ? 'Agente' : user.role === 'admin' ? 'Administrador' : 'Cliente' }}</span>
+                </div>
+                <hr class="my-2 border-secondary opacity-25">
+                <a class="dropdown-item" routerLink="/perfil" (click)="cerrarMenu()">Mi perfil</a>
+                @if (user.role === 'agent' || user.role === 'admin') {
+                  <a class="dropdown-item" routerLink="/agent" (click)="cerrarMenu()">Gestión de eventos y reservas</a>
+                }
+                @if (user.role === 'admin') {
+                  <a class="dropdown-item" routerLink="/admin" (click)="cerrarMenu()">Reportes y usuarios</a>
+                }
+                <hr class="my-2 border-secondary opacity-25">
+                <button type="button" (click)="salir()" class="dropdown-item text-danger fw-semibold">Cerrar sesión</button>
+              </div>
+            }
           </li>
         } @else {
-          <li class="nav-item">
-            <a routerLink="/login" class="btn btn-primary ms-lg-3 mt-2 mt-lg-0">
-              Iniciar Sesión
-            </a>
+          <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
+            <a routerLink="/login" class="btn btn-outline-light rounded-pill px-4">Iniciar sesión</a>
+          </li>
+          <li class="nav-item ms-lg-1 mt-2 mt-lg-0">
+            <a routerLink="/registro" class="btn btn-primary rounded-pill px-4">Crear cuenta</a>
           </li>
         }
       </ul>

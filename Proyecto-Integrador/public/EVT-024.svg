@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 320" width="800" height="320" role="img" aria-label="Tech &amp; Futuro Colombia 2027">
+<rect width="800" height="320" fill="#222148"/>
+<circle cx="556" cy="49" r="108" fill="#6f6ad0" fill-opacity="0.14"/>
+<circle cx="119" cy="135" r="98" fill="#6f6ad0" fill-opacity="0.14"/>
+<circle cx="560" cy="299" r="135" fill="#6f6ad0" fill-opacity="0.18"/>
+<circle cx="496" cy="191" r="73" fill="#6f6ad0" fill-opacity="0.18"/>
+<rect x="757" y="-40" width="58" height="400" transform="rotate(25 757 160.0)" fill="#6f6ad0" fill-opacity="0.08"/>
+<rect x="532" y="-40" width="31" height="400" transform="rotate(25 532 160.0)" fill="#6f6ad0" fill-opacity="0.08"/>
+<text x="400.0" y="165" text-anchor="middle" font-size="108">💡</text>
+<text x="400.0" y="220" text-anchor="middle" font-family="Outfit, Inter, Arial, sans-serif" font-size="30" font-weight="700" fill="#ffffff" fill-opacity="0.92">Tech &amp; Futuro Colombia</text><text x="400.0" y="254" text-anchor="middle" font-family="Outfit, Inter, Arial, sans-serif" font-size="30" font-weight="700" fill="#ffffff" fill-opacity="0.92">2027</text>
+</svg>

@@ -1,97 +1,233 @@
-<div class="container py-5 text-white">
-  <div class="text-center mb-5">
-    <span class="badge bg-primary mb-2 px-3 py-2">BOLETERÍA Y ESPECTÁCULOS 2026</span>
-    <h1 class="display-5 fw-bold">Eventos Disponibles</h1>
-    <p class="text-secondary">Reserva tus entradas para los mejores espectáculos y torneos del país</p>
+<!-- ============ Mensajes flotantes ============ -->
+<div class="toast-stack">
+  @if (mensajeExito()) { <div class="toast-msg ok">{{ mensajeExito() }}</div> }
+  @if (mensajeError()) { <div class="toast-msg err">{{ mensajeError() }}</div> }
+</div>
+
+<!-- ============ Hero ============ -->
+<section class="hero">
+  <span class="hero-badge"><i></i> Boletería oficial 2026 · 2027</span>
+  <h1>Vive los mejores <span class="text-gradient">eventos de Colombia</span></h1>
+  <p class="lead">Conciertos, festivales, teatro, comedia y torneos de videojuegos. Elige tu plan y reserva tus entradas en segundos.</p>
+
+  <form class="search-bar" (submit)="$event.preventDefault(); irAEventos()">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9d96b5" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+    <input type="search" placeholder="Busca un evento, artista, teatro o ciudad…" aria-label="Buscar eventos"
+           [ngModel]="busqueda()" (ngModelChange)="busqueda.set($event)" name="busqueda">
+    <button type="submit" class="btn btn-primary rounded-pill px-4">Buscar</button>
+  </form>
+
+  <div class="hero-stats">
+    <div><strong>{{ proximos().length }}</strong><span>Eventos disponibles</span></div>
+    <div><strong>{{ ciudades().length - 1 }}</strong><span>Ciudades</span></div>
+    <div><strong>{{ categorias().length - 1 }}</strong><span>Categorías</span></div>
   </div>
+</section>
 
-  @if (mensajeExito()) {
-    <div class="alert alert-success text-center fw-semibold">{{ mensajeExito() }}</div>
-  }
-  @if (mensajeError()) {
-    <div class="alert alert-danger text-center fw-semibold">{{ mensajeError() }}</div>
-  }
-
-  <div class="row g-4">
-    @for (evento of eventos(); track evento.codigo_evento) {
-      <div class="col-md-6 col-lg-4">
-        <div class="card h-100 rounded-4 shadow text-white" style="background-color: #1a1a1a; border: 1px solid #333;">
-          <div class="card-body d-flex flex-column p-4">
-            <div class="d-flex justify-content-between align-items-start mb-2">
-              <span class="badge bg-dark border border-secondary text-info">{{ evento.codigo_evento }}</span>
-              <span class="badge"
-                [class.bg-success]="evento.estado === 'En Boletería'"
-                [class.bg-primary]="evento.estado === 'Programado'"
-                [class.bg-warning]="evento.estado === 'En Vivo'"
-                [class.bg-secondary]="evento.estado === 'Finalizado'"
-                [class.bg-danger]="evento.estado === 'Cancelado'">
-                {{ evento.estado }}
-              </span>
-            </div>
-
-            <h4 class="fw-bold mt-2">{{ evento.nombre }}</h4>
-            <p class="text-secondary small flex-grow-1">{{ evento.descripcion }}</p>
-
-            <ul class="list-unstyled small text-light border-top border-bottom border-secondary py-3 my-3">
-              <li class="mb-1">📍 <strong>Lugar:</strong> {{ evento.teatro }} ({{ evento.nombre_ciudad }})</li>
-              <li class="mb-1">📅 <strong>Inicio:</strong> {{ evento.fecha_inicio | date:'medium' }}</li>
-              <li class="mb-1">👥 <strong>Capacidad:</strong> {{ evento.capacidad_total }} personas</li>
-              <li>💵 <strong>Entrada base:</strong> <span class="text-success fw-bold">${{ evento.precio_base | number }}</span></li>
-            </ul>
-
-            <button (click)="abrirModalReserva(evento)"
-                    [disabled]="evento.estado === 'Cancelado' || evento.estado === 'Finalizado'"
-                    class="btn btn-primary w-100 fw-semibold">
-              {{ evento.estado === 'Cancelado' ? 'Evento Cancelado' : 'Reservar Entradas' }}
-            </button>
-          </div>
-        </div>
-      </div>
-    } @empty {
-      <div class="col-12 text-center py-5 text-secondary">
-        No hay eventos registrados en este momento.
-      </div>
-    }
+@if (cargando()) {
+  <div class="empty-state">
+    <div class="spinner-ring"></div>
+    Cargando eventos…
   </div>
+} @else if (errorCarga()) {
+  <div class="empty-state">
+    <div class="big">🔌</div>
+    <h4 class="text-white">No pudimos conectar con el servidor</h4>
+    <p>Verifica que el backend esté corriendo en el puerto 3000 y que la base de datos esté activa.</p>
+    <button class="btn btn-primary mt-2" (click)="cargarEventos()">Reintentar</button>
+  </div>
+} @else {
 
-  <!-- Modal de Reserva Directa -->
-  @if (eventoSeleccionado(); as ev) {
-    <div class="modal d-block" style="background: rgba(0,0,0,0.8);">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content bg-dark text-white border-secondary rounded-4">
-          <div class="modal-header border-secondary">
-            <h5 class="modal-title fw-bold text-primary">Reservar: {{ ev.nombre }}</h5>
-            <button type="button" class="btn-close btn-close-white" (click)="cerrarModal()"></button>
+  <!-- ============ Destacados ============ -->
+  @if (destacados().length > 0 && !hayFiltros()) {
+    <section class="mb-5">
+      <div class="section-title">
+        <h2>⭐ Eventos destacados</h2>
+        <small>Los más esperados de la temporada</small>
+      </div>
+      <div class="row g-4">
+        @for (evento of destacados(); track evento.codigo_evento) {
+          <div class="col-md-6 col-lg-4">
+            <article [class]="'event-card ' + claseCategoria(evento.categoria)">
+              <div class="poster" style="height: 190px;">
+                <div class="poster-date">
+                  <b>{{ evento.fecha_inicio | date:'d' }}</b>
+                  <small>{{ evento.fecha_inicio | date:'MMM' }}</small>
+                </div>
+                <div class="poster-flag"><span [class]="claseEstado(evento.estado)">{{ evento.estado }}</span></div>
+                @if (evento.imagen_url) {
+                <img class="poster-img" [src]="evento.imagen_url" [alt]="evento.nombre" loading="lazy">
+              } @else {
+                <span class="poster-icon">{{ icono(evento.categoria) }}</span>
+              }
+                <span class="poster-cat">{{ evento.categoria }}</span>
+              </div>
+              <div class="event-body">
+                <h3 class="event-title">{{ evento.nombre }}</h3>
+                <p class="event-desc mb-0">{{ evento.descripcion }}</p>
+                <div class="event-foot">
+                  <div class="price"><small>Desde</small><b>${{ evento.precio_base | number:'1.0-0' }}</b></div>
+                  <button class="btn btn-primary rounded-pill px-4" (click)="abrirModalReserva(evento)" [disabled]="!puedeReservar(evento)">
+                    {{ textoBoton(evento) }}
+                  </button>
+                </div>
+              </div>
+            </article>
           </div>
-          <div class="modal-body">
-            <p class="small text-secondary mb-3">
-              📍 {{ ev.teatro }} — {{ ev.nombre_ciudad }} <br>
-              💵 Precio unitario: <strong>${{ ev.precio_base | number }}</strong>
-            </p>
+        }
+      </div>
+    </section>
+  }
 
-            <div class="mb-3">
-              <label class="form-label">Número de Entradas</label>
-              <input type="number" min="1" [max]="ev.capacidad_total" [(ngModel)]="cantidadEntradas"
-                     class="form-control bg-black text-white border-secondary">
-            </div>
+  <!-- ============ Catálogo ============ -->
+  <section id="eventos" style="scroll-margin-top: 90px;">
+    <div class="section-title">
+      <h2>Todos los eventos</h2>
+      <small>{{ filtrados().length }} {{ filtrados().length === 1 ? 'evento' : 'eventos' }}</small>
+    </div>
 
-            <div class="mb-3">
-              <label class="form-label">Observaciones (opcional)</label>
-              <input type="text" [(ngModel)]="observacionesReserva" placeholder="Ej. Ubicación preferida..."
-                     class="form-control bg-black text-white border-secondary">
-            </div>
-
-            <div class="p-3 rounded-3 bg-black border border-secondary d-flex justify-content-between align-items-center">
-              <span class="text-secondary">Valor Total a Pagar:</span>
-              <span class="fs-4 fw-bold text-success">${{ (cantidadEntradas * ev.precio_base) | number }}</span>
-            </div>
-          </div>
-          <div class="modal-footer border-secondary">
-            <button type="button" class="btn btn-outline-secondary" (click)="cerrarModal()">Cancelar</button>
-            <button type="button" class="btn btn-primary fw-bold" (click)="confirmarReserva()">Confirmar Reserva</button>
-          </div>
+    <div class="d-flex flex-column flex-lg-row gap-3 align-items-lg-center justify-content-between mb-4">
+      <div class="chips-row">
+        @for (cat of categorias(); track cat) {
+          <button type="button" class="chip" [class.active]="categoriaActiva() === cat" (click)="categoriaActiva.set(cat)">
+            @if (cat !== 'Todas') { <span>{{ icono(cat) }}</span> }
+            <span>{{ cat }}</span>
+          </button>
+        }
+      </div>
+      <div class="d-flex flex-wrap gap-2 align-items-center">
+        <select class="form-select form-select-sm w-auto" aria-label="Filtrar por ciudad"
+                [ngModel]="ciudadActiva()" (ngModelChange)="ciudadActiva.set($event)" name="ciudad">
+          @for (c of ciudades(); track c) {
+            <option [value]="c">{{ c === 'Todas' ? 'Todas las ciudades' : c }}</option>
+          }
+        </select>
+        <div class="form-check form-switch mb-0">
+          <input class="form-check-input" type="checkbox" role="switch" id="pasados"
+                 [ngModel]="mostrarPasados()" (ngModelChange)="mostrarPasados.set($event)" name="pasados">
+          <label class="form-check-label small text-secondary" for="pasados">Ver eventos pasados</label>
         </div>
       </div>
     </div>
-  }
-</div>
+
+    <div class="row g-4">
+      @for (evento of filtrados(); track evento.codigo_evento) {
+        <div class="col-md-6 col-lg-4">
+          <article [class]="'event-card ' + claseCategoria(evento.categoria)"
+                   [class.is-past]="evento.estado === 'Finalizado' || evento.estado === 'Cancelado'">
+            <div class="poster">
+              <div class="poster-date">
+                <b>{{ evento.fecha_inicio | date:'d' }}</b>
+                <small>{{ evento.fecha_inicio | date:'MMM' }}</small>
+              </div>
+              <div class="poster-flag"><span [class]="claseEstado(evento.estado)">{{ evento.estado }}</span></div>
+              @if (evento.imagen_url) {
+                <img class="poster-img" [src]="evento.imagen_url" [alt]="evento.nombre" loading="lazy">
+              } @else {
+                <span class="poster-icon">{{ icono(evento.categoria) }}</span>
+              }
+              <span class="poster-cat">{{ evento.categoria }}</span>
+            </div>
+
+            <div class="event-body">
+              <h3 class="event-title">{{ evento.nombre }}</h3>
+              <p class="event-desc">{{ evento.descripcion }}</p>
+
+              <ul class="event-meta">
+                <li><span class="ic">📍</span><span>{{ evento.teatro }} · {{ evento.nombre_ciudad }}</span></li>
+                <li><span class="ic">🕒</span><span>{{ evento.fecha_inicio | date:'EEE d MMM, h:mm a' }}</span></li>
+              </ul>
+
+              @if (evento.estado !== 'Finalizado' && evento.estado !== 'Cancelado') {
+                <div class="avail">
+                  <div class="avail-bar"><i [class.low]="pocasEntradas(evento)" [style.width.%]="porcentajeOcupado(evento)"></i></div>
+                  <small>
+                    @if (evento.disponibles <= 0) {
+                      <span>Entradas agotadas</span>
+                    } @else if (pocasEntradas(evento)) {
+                      <span>🔥 ¡Últimas {{ evento.disponibles }} entradas!</span>
+                    } @else {
+                      <span>{{ evento.disponibles | number }} entradas disponibles</span>
+                    }
+                  </small>
+                </div>
+              } @else if (evento.estado === 'Cancelado' && evento.observaciones) {
+                <div class="avail"><small>{{ evento.observaciones }}</small></div>
+              }
+
+              <div class="event-foot">
+                <div class="price"><small>Entrada desde</small><b>${{ evento.precio_base | number:'1.0-0' }}</b></div>
+                <button class="btn btn-primary rounded-pill px-4" (click)="abrirModalReserva(evento)" [disabled]="!puedeReservar(evento)">
+                  {{ textoBoton(evento) }}
+                </button>
+              </div>
+            </div>
+          </article>
+        </div>
+      } @empty {
+        <div class="col-12">
+          <div class="empty-state">
+            <div class="big">🔎</div>
+            <h4 class="text-white">No encontramos eventos con esos filtros</h4>
+            <p>Prueba con otra categoría, ciudad o término de búsqueda.</p>
+            @if (hayFiltros()) {
+              <button class="btn btn-outline-primary" (click)="limpiarFiltros()">Limpiar filtros</button>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  </section>
+}
+
+<!-- ============ Modal de reserva ============ -->
+@if (eventoSeleccionado(); as ev) {
+  <div class="modal-backdrop-custom" (click)="cerrarModal()">
+    <div class="modal-panel" (click)="$event.stopPropagation()" role="dialog" aria-modal="true">
+      <div class="head">
+        <div>
+          <span class="role-badge mb-2">Reservar entradas</span>
+          <h4 class="mb-1 mt-2 text-white">{{ ev.nombre }}</h4>
+          <div class="small text-secondary">📍 {{ ev.teatro }} · {{ ev.nombre_ciudad }}<br>🕒 {{ ev.fecha_inicio | date:'EEEE d MMMM, h:mm a' }}</div>
+        </div>
+        <button type="button" class="btn-close-custom" (click)="cerrarModal()" aria-label="Cerrar">×</button>
+      </div>
+
+      <div class="body">
+        @if (modalError()) {
+          <div class="alert alert-danger py-2 small">{{ modalError() }}</div>
+        }
+
+        <div class="d-flex align-items-center justify-content-between mb-4">
+          <div>
+            <div class="fw-semibold text-white">Número de entradas</div>
+            <small class="text-secondary">Máximo {{ maxEntradas() }} por reserva · ${{ ev.precio_base | number:'1.0-0' }} c/u</small>
+          </div>
+          <div class="qty">
+            <button type="button" (click)="cambiarCantidad(-1)" [disabled]="cantidad() <= 1" aria-label="Menos">−</button>
+            <span>{{ cantidad() }}</span>
+            <button type="button" (click)="cambiarCantidad(1)" [disabled]="cantidad() >= maxEntradas()" aria-label="Más">+</button>
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <label class="form-label" for="obs">Observaciones (opcional)</label>
+          <input id="obs" type="text" class="form-control" maxlength="120" placeholder="Ej. Asientos juntos, acceso para silla de ruedas…"
+                 [ngModel]="observaciones()" (ngModelChange)="observaciones.set($event)" name="obs">
+        </div>
+
+        <div class="total-box">
+          <span class="text-secondary">Total a pagar</span>
+          <span class="fs-3 fw-bold text-white">${{ totalReserva() | number:'1.0-0' }}</span>
+        </div>
+      </div>
+
+      <div class="foot">
+        <button type="button" class="btn btn-outline-secondary" (click)="cerrarModal()" [disabled]="enviando()">Cancelar</button>
+        <button type="button" class="btn btn-primary px-4" (click)="confirmarReserva()" [disabled]="enviando()">
+          {{ enviando() ? 'Reservando…' : 'Confirmar reserva' }}
+        </button>
+      </div>
+    </div>
+  </div>
+}

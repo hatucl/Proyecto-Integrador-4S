@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 320" width="800" height="320" role="img" aria-label="Feria Gastronómica Sabores del Pacífico">
+<rect width="800" height="320" fill="#43204f"/>
+<circle cx="242" cy="101" r="148" fill="#b254b8" fill-opacity="0.18"/>
+<circle cx="839" cy="67" r="120" fill="#b254b8" fill-opacity="0.18"/>
+<circle cx="516" cy="236" r="122" fill="#b254b8" fill-opacity="0.1"/>
+<circle cx="356" cy="112" r="186" fill="#b254b8" fill-opacity="0.14"/>
+<rect x="37" y="-40" width="27" height="400" transform="rotate(25 37 160.0)" fill="#b254b8" fill-opacity="0.08"/>
+<rect x="508" y="-40" width="65" height="400" transform="rotate(25 508 160.0)" fill="#b254b8" fill-opacity="0.08"/>
+<text x="400.0" y="165" text-anchor="middle" font-size="108">🍲</text>
+<text x="400.0" y="220" text-anchor="middle" font-family="Outfit, Inter, Arial, sans-serif" font-size="30" font-weight="700" fill="#ffffff" fill-opacity="0.92">Feria Gastronómica</text><text x="400.0" y="254" text-anchor="middle" font-family="Outfit, Inter, Arial, sans-serif" font-size="30" font-weight="700" fill="#ffffff" fill-opacity="0.92">Sabores del Pacífico</text>
+</svg>

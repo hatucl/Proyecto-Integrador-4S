@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 320" width="800" height="320" role="img" aria-label="Copa Pacífico de eSports">
+<rect width="800" height="320" fill="#1f1e45"/>
+<circle cx="761" cy="7" r="164" fill="#6a63d8" fill-opacity="0.1"/>
+<circle cx="-31" cy="7" r="177" fill="#6a63d8" fill-opacity="0.1"/>
+<circle cx="722" cy="356" r="76" fill="#6a63d8" fill-opacity="0.18"/>
+<circle cx="230" cy="18" r="63" fill="#6a63d8" fill-opacity="0.1"/>
+<rect x="418" y="-40" width="29" height="400" transform="rotate(25 418 160.0)" fill="#6a63d8" fill-opacity="0.08"/>
+<rect x="705" y="-40" width="52" height="400" transform="rotate(25 705 160.0)" fill="#6a63d8" fill-opacity="0.08"/>
+<text x="400.0" y="165" text-anchor="middle" font-size="108">🕹️</text>
+<text x="400.0" y="220" text-anchor="middle" font-family="Outfit, Inter, Arial, sans-serif" font-size="30" font-weight="700" fill="#ffffff" fill-opacity="0.92">Copa Pacífico de</text><text x="400.0" y="254" text-anchor="middle" font-family="Outfit, Inter, Arial, sans-serif" font-size="30" font-weight="700" fill="#ffffff" fill-opacity="0.92">eSports</text>
+</svg>

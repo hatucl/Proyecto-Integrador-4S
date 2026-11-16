@@ -46,7 +46,10 @@ export class AdminDashboard implements OnInit {
   cargarTodo() {
     this.apiService.getDashboardReportes().subscribe({
       next: (data) => this.reportes.set(data),
-      error: (err) => console.error('Error cargando reportes', err)
+      error: () => {
+        this.errorMsg.set('No se pudieron cargar los reportes. Verifica que el servidor esté activo.');
+        setTimeout(() => this.errorMsg.set(''), 4500);
+      }
     });
 
     this.apiService.getAgentes().subscribe({
@@ -103,6 +106,22 @@ export class AdminDashboard implements OnInit {
         setTimeout(() => this.errorMsg.set(''), 4000);
       }
     });
+  }
+
+  // Porcentaje (0-100) de un valor respecto al máximo de la lista; sirve para las barras del gráfico
+  porcentaje(valor: any, lista: any[], campo: string): number {
+    const max = Math.max(...lista.map((x) => Number(x[campo]) || 0), 1);
+    return Math.round(((Number(valor) || 0) / max) * 100);
+  }
+
+  claseEstadoEvento(estado: string): string {
+    switch (estado) {
+      case 'En Boletería': return 'status status-boleteria';
+      case 'En Vivo': return 'status status-envivo';
+      case 'Finalizado': return 'status status-finalizado';
+      case 'Cancelado': return 'status status-cancelado';
+      default: return 'status status-programado';
+    }
   }
 
   private notificar(msg: string) {

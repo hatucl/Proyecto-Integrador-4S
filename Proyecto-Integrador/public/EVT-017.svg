@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 320" width="800" height="320" role="img" aria-label="Cuentos de Navidad para Toda la Familia">
+<rect width="800" height="320" fill="#3b2c63"/>
+<circle cx="564" cy="301" r="125" fill="#9a86e0" fill-opacity="0.18"/>
+<circle cx="168" cy="-32" r="95" fill="#9a86e0" fill-opacity="0.18"/>
+<circle cx="383" cy="251" r="81" fill="#9a86e0" fill-opacity="0.18"/>
+<circle cx="628" cy="-36" r="80" fill="#9a86e0" fill-opacity="0.1"/>
+<rect x="192" y="-40" width="59" height="400" transform="rotate(25 192 160.0)" fill="#9a86e0" fill-opacity="0.08"/>
+<rect x="84" y="-40" width="29" height="400" transform="rotate(25 84 160.0)" fill="#9a86e0" fill-opacity="0.08"/>
+<text x="400.0" y="165" text-anchor="middle" font-size="108">📖</text>
+<text x="400.0" y="220" text-anchor="middle" font-family="Outfit, Inter, Arial, sans-serif" font-size="30" font-weight="700" fill="#ffffff" fill-opacity="0.92">Cuentos de Navidad</text><text x="400.0" y="254" text-anchor="middle" font-family="Outfit, Inter, Arial, sans-serif" font-size="30" font-weight="700" fill="#ffffff" fill-opacity="0.92">para Toda la Familia</text>
+</svg>

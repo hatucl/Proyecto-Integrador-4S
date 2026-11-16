@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 320" width="800" height="320" role="img" aria-label="Cumbre Electrónica: Festival de Luces">
+<rect width="800" height="320" fill="#4a2260"/>
+<circle cx="77" cy="34" r="120" fill="#b25bd0" fill-opacity="0.14"/>
+<circle cx="766" cy="300" r="119" fill="#b25bd0" fill-opacity="0.14"/>
+<circle cx="9" cy="78" r="172" fill="#b25bd0" fill-opacity="0.1"/>
+<circle cx="-32" cy="121" r="90" fill="#b25bd0" fill-opacity="0.18"/>
+<rect x="659" y="-40" width="55" height="400" transform="rotate(25 659 160.0)" fill="#b25bd0" fill-opacity="0.08"/>
+<rect x="72" y="-40" width="39" height="400" transform="rotate(25 72 160.0)" fill="#b25bd0" fill-opacity="0.08"/>
+<text x="400.0" y="165" text-anchor="middle" font-size="108">🎧</text>
+<text x="400.0" y="232" text-anchor="middle" font-family="Outfit, Inter, Arial, sans-serif" font-size="30" font-weight="700" fill="#ffffff" fill-opacity="0.92">Cumbre Electrónica</text>
+</svg>

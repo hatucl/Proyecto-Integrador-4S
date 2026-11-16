@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 320" width="800" height="320" role="img" aria-label="Noche de Salsa Caleña">
+<rect width="800" height="320" fill="#2e1f57"/>
+<circle cx="195" cy="307" r="127" fill="#7c5cd6" fill-opacity="0.14"/>
+<circle cx="426" cy="275" r="127" fill="#7c5cd6" fill-opacity="0.1"/>
+<circle cx="425" cy="359" r="116" fill="#7c5cd6" fill-opacity="0.1"/>
+<circle cx="118" cy="254" r="147" fill="#7c5cd6" fill-opacity="0.14"/>
+<rect x="267" y="-40" width="28" height="400" transform="rotate(25 267 160.0)" fill="#7c5cd6" fill-opacity="0.08"/>
+<rect x="0" y="-40" width="34" height="400" transform="rotate(25 0 160.0)" fill="#7c5cd6" fill-opacity="0.08"/>
+<text x="400.0" y="165" text-anchor="middle" font-size="108">💃</text>
+<text x="400.0" y="232" text-anchor="middle" font-family="Outfit, Inter, Arial, sans-serif" font-size="30" font-weight="700" fill="#ffffff" fill-opacity="0.92">Noche de Salsa Caleña</text>
+</svg>

@@ -10,5 +10,7 @@ export interface Evento {
   precio_base: number;
   observaciones?: string;
   estado: 'Programado' | 'En Boletería' | 'En Vivo' | 'Finalizado' | 'Cancelado';
+  categoria?: string;
+  destacado?: boolean;
   id_agente_creador: string;
 }

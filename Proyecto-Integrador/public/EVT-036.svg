@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 320" width="800" height="320" role="img" aria-label="Gran Concurso de Cosplay y Anime">
+<rect width="800" height="320" fill="#1f1e45"/>
+<circle cx="170" cy="24" r="161" fill="#6a63d8" fill-opacity="0.18"/>
+<circle cx="360" cy="99" r="79" fill="#6a63d8" fill-opacity="0.18"/>
+<circle cx="205" cy="321" r="85" fill="#6a63d8" fill-opacity="0.18"/>
+<circle cx="564" cy="307" r="156" fill="#6a63d8" fill-opacity="0.1"/>
+<rect x="201" y="-40" width="32" height="400" transform="rotate(25 201 160.0)" fill="#6a63d8" fill-opacity="0.08"/>
+<rect x="440" y="-40" width="42" height="400" transform="rotate(25 440 160.0)" fill="#6a63d8" fill-opacity="0.08"/>
+<text x="400.0" y="165" text-anchor="middle" font-size="108">🦸</text>
+<text x="400.0" y="220" text-anchor="middle" font-family="Outfit, Inter, Arial, sans-serif" font-size="30" font-weight="700" fill="#ffffff" fill-opacity="0.92">Gran Concurso de</text><text x="400.0" y="254" text-anchor="middle" font-family="Outfit, Inter, Arial, sans-serif" font-size="30" font-weight="700" fill="#ffffff" fill-opacity="0.92">Cosplay y Anime</text>
+</svg>

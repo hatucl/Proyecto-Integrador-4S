@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 320" width="800" height="320" role="img" aria-label="Feria del Libro y la Cultura de Bucaramanga">
+<rect width="800" height="320" fill="#2b2150"/>
+<circle cx="442" cy="71" r="101" fill="#9a63d0" fill-opacity="0.1"/>
+<circle cx="432" cy="100" r="141" fill="#9a63d0" fill-opacity="0.1"/>
+<circle cx="187" cy="315" r="128" fill="#9a63d0" fill-opacity="0.18"/>
+<circle cx="656" cy="175" r="82" fill="#9a63d0" fill-opacity="0.18"/>
+<rect x="510" y="-40" width="30" height="400" transform="rotate(25 510 160.0)" fill="#9a63d0" fill-opacity="0.08"/>
+<rect x="336" y="-40" width="49" height="400" transform="rotate(25 336 160.0)" fill="#9a63d0" fill-opacity="0.08"/>
+<text x="400.0" y="165" text-anchor="middle" font-size="108">📚</text>
+<text x="400.0" y="220" text-anchor="middle" font-family="Outfit, Inter, Arial, sans-serif" font-size="30" font-weight="700" fill="#ffffff" fill-opacity="0.92">Feria del Libro y la</text><text x="400.0" y="254" text-anchor="middle" font-family="Outfit, Inter, Arial, sans-serif" font-size="30" font-weight="700" fill="#ffffff" fill-opacity="0.92">Cultura de Bucaramanga</text>
+</svg>

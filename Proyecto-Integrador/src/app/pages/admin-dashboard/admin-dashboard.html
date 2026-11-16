@@ -1,63 +1,57 @@
-<div class="container py-5 text-white">
-  <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+<div class="py-5">
+  <div class="panel-head">
     <div>
-      <span class="badge bg-info text-dark mb-1">ADMINISTRACIÓN CENTRAL</span>
-      <h2 class="fw-bold mb-0">Dashboard Gerencial y Reportes</h2>
+      <span class="role-badge">Administración central</span>
+      <h2>Panel gerencial y reportes</h2>
     </div>
 
-    <div class="btn-group">
-      <button (click)="pestanaActiva.set('reportes')" class="btn"
-        [class.btn-primary]="pestanaActiva() === 'reportes'"
-        [class.btn-outline-secondary]="pestanaActiva() !== 'reportes'">
-        📊 Reportes del Sistema
+    <div class="tabs">
+      <button type="button" (click)="pestanaActiva.set('reportes')" [class.active]="pestanaActiva() === 'reportes'">
+        Reportes
       </button>
-      <button (click)="pestanaActiva.set('usuarios')" class="btn"
-        [class.btn-primary]="pestanaActiva() === 'usuarios'"
-        [class.btn-outline-secondary]="pestanaActiva() !== 'usuarios'">
-        👥 Agentes y Clientes
+      <button type="button" (click)="pestanaActiva.set('usuarios')" [class.active]="pestanaActiva() === 'usuarios'">
+        Agentes y clientes
       </button>
     </div>
   </div>
 
-  @if (mensaje()) {
-    <div class="alert alert-success text-center fw-semibold">{{ mensaje() }}</div>
-  }
-  @if (errorMsg()) {
-    <div class="alert alert-danger text-center fw-semibold">{{ errorMsg() }}</div>
-  }
+  <div class="toast-stack">
+    @if (mensaje()) { <div class="toast-msg ok">{{ mensaje() }}</div> }
+    @if (errorMsg()) { <div class="toast-msg err">{{ errorMsg() }}</div> }
+  </div>
 
-  <!-- ================= PESTAÑA 1: REPORTES DEL SISTEMA ================= -->
+  <!-- ===== Reportes ===== -->
   @if (pestanaActiva() === 'reportes' && reportes(); as rep) {
     <!-- 1. Conteo General de Registros -->
     <div class="row g-3 mb-4">
       <div class="col-6 col-md">
-        <div class="card p-3 text-center rounded-4" style="background-color: #1a1a1a; border: 1px solid #333;">
-          <small class="text-secondary">Clientes</small>
-          <h2 class="fw-bold text-primary mb-0">{{ rep.general.total_clientes }}</h2>
+        <div class="stat-card">
+          <small>Clientes</small>
+          <h3>{{ rep.general.total_clientes }}</h3>
         </div>
       </div>
       <div class="col-6 col-md">
-        <div class="card p-3 text-center rounded-4" style="background-color: #1a1a1a; border: 1px solid #333;">
-          <small class="text-secondary">Agentes</small>
-          <h2 class="fw-bold text-warning mb-0">{{ rep.general.total_agentes }}</h2>
+        <div class="stat-card">
+          <small>Agentes</small>
+          <h3>{{ rep.general.total_agentes }}</h3>
         </div>
       </div>
       <div class="col-6 col-md">
-        <div class="card p-3 text-center rounded-4" style="background-color: #1a1a1a; border: 1px solid #333;">
-          <small class="text-secondary">Administradores</small>
-          <h2 class="fw-bold text-info mb-0">{{ rep.general.total_administradores }}</h2>
+        <div class="stat-card">
+          <small>Administradores</small>
+          <h3>{{ rep.general.total_administradores }}</h3>
         </div>
       </div>
       <div class="col-6 col-md">
-        <div class="card p-3 text-center rounded-4" style="background-color: #1a1a1a; border: 1px solid #333;">
-          <small class="text-secondary">Eventos</small>
-          <h2 class="fw-bold text-light mb-0">{{ rep.general.total_eventos }}</h2>
+        <div class="stat-card">
+          <small>Eventos</small>
+          <h3>{{ rep.general.total_eventos }}</h3>
         </div>
       </div>
       <div class="col-12 col-md">
-        <div class="card p-3 text-center rounded-4" style="background-color: #1a1a1a; border: 1px solid #333;">
-          <small class="text-secondary">Reservas</small>
-          <h2 class="fw-bold text-success mb-0">{{ rep.general.total_reservas }}</h2>
+        <div class="stat-card">
+          <small>Reservas</small>
+          <h3>{{ rep.general.total_reservas }}</h3>
         </div>
       </div>
     </div>
@@ -65,29 +59,23 @@
     <!-- 2. Reportes Comerciales -->
     <div class="row g-4 mb-4">
       <div class="col-md-6">
-        <div class="card p-4 h-100 rounded-4" style="background-color: #1a1a1a; border: 1px solid #333;">
-          <h5 class="text-primary fw-bold mb-3">Ingresos por Mes (Año 2026)</h5>
-          <table class="table table-dark table-sm mb-0">
-            <thead>
-              <tr class="text-secondary"><th>Mes</th><th class="text-end">Ingresos Totales</th></tr>
-            </thead>
-            <tbody>
-              @for (m of rep.comerciales.ingresosMes2026; track m.mes) {
-                <tr>
-                  <td class="text-capitalize">{{ m.nombre_mes }}</td>
-                  <td class="text-end text-success fw-bold">${{ m.ingresos_totales | number }}</td>
-                </tr>
-              } @empty {
-                <tr><td colspan="2" class="text-center text-secondary">Sin ingresos activos en 2026</td></tr>
-              }
-            </tbody>
-          </table>
+        <div class="card p-4 h-100 rounded-4">
+          <h5 class="fw-bold mb-3">Ingresos por mes · 2026</h5>
+          @for (m of rep.comerciales.ingresosMes2026; track m.mes) {
+            <div class="bar-row">
+              <span class="text-capitalize text-secondary">{{ m.nombre_mes }}</span>
+              <div class="bar-track"><i [style.width.%]="porcentaje(m.ingresos_totales, rep.comerciales.ingresosMes2026, 'ingresos_totales')"></i></div>
+              <span class="fw-semibold">${{ m.ingresos_totales | number:'1.0-0' }}</span>
+            </div>
+          } @empty {
+            <p class="text-secondary small mb-0">Sin ingresos registrados en 2026.</p>
+          }
         </div>
       </div>
 
       <div class="col-md-6">
-        <div class="card p-4 h-100 rounded-4" style="background-color: #1a1a1a; border: 1px solid #333;">
-          <h5 class="text-primary fw-bold mb-3">Promedio de Ingresos por Agente</h5>
+        <div class="card p-4 h-100 rounded-4">
+          <h5 class="fw-bold mb-3">Promedio de Ingresos por Agente</h5>
           <table class="table table-dark table-sm mb-0">
             <thead>
               <tr class="text-secondary"><th>Agente</th><th class="text-end">Promedio</th><th class="text-end">Total</th></tr>
@@ -96,8 +84,8 @@
               @for (ag of rep.comerciales.promedioAgente; track ag.identificacion) {
                 <tr>
                   <td>{{ ag.agente }}</td>
-                  <td class="text-end text-info">${{ ag.promedio_ingresos | number }}</td>
-                  <td class="text-end text-success fw-bold">${{ ag.total_ingresos | number }}</td>
+                  <td class="text-end text-secondary">${{ ag.promedio_ingresos | number:'1.0-0' }}</td>
+                  <td class="text-end fw-bold">${{ ag.total_ingresos | number:'1.0-0' }}</td>
                 </tr>
               }
             </tbody>
@@ -108,8 +96,8 @@
 
     <div class="row g-4 mb-4">
       <div class="col-md-6">
-        <div class="card p-4 h-100 rounded-4" style="background-color: #1a1a1a; border: 1px solid #333;">
-          <h5 class="text-primary fw-bold mb-3">Promedio de Gasto por Cliente</h5>
+        <div class="card p-4 h-100 rounded-4">
+          <h5 class="fw-bold mb-3">Promedio de Gasto por Cliente</h5>
           <table class="table table-dark table-sm mb-0">
             <thead>
               <tr class="text-secondary"><th>Cliente</th><th class="text-end">Promedio</th><th class="text-end">Total</th></tr>
@@ -118,8 +106,8 @@
               @for (cl of rep.comerciales.promedioCliente; track cl.identificacion) {
                 <tr>
                   <td>{{ cl.cliente }}</td>
-                  <td class="text-end text-info">${{ cl.promedio_gasto | number }}</td>
-                  <td class="text-end text-success fw-bold">${{ cl.total_gasto | number }}</td>
+                  <td class="text-end text-secondary">${{ cl.promedio_gasto | number:'1.0-0' }}</td>
+                  <td class="text-end fw-bold">${{ cl.total_gasto | number:'1.0-0' }}</td>
                 </tr>
               }
             </tbody>
@@ -128,8 +116,8 @@
       </div>
 
       <div class="col-md-6">
-        <div class="card p-4 h-100 rounded-4" style="background-color: #1a1a1a; border: 1px solid #333;">
-          <h5 class="text-primary fw-bold mb-3">Eventos por Agente y Ciudad</h5>
+        <div class="card p-4 h-100 rounded-4">
+          <h5 class="fw-bold mb-3">Eventos por Agente y Ciudad</h5>
           <table class="table table-dark table-sm mb-0">
             <thead>
               <tr class="text-secondary"><th>Agente</th><th>Ciudad</th><th class="text-end">Eventos</th></tr>
@@ -149,8 +137,8 @@
     </div>
 
     <!-- 3. Reporte de Cobertura Geográfica -->
-    <div class="card p-4 mb-4 rounded-4" style="background-color: #1a1a1a; border: 1px solid #333;">
-      <h5 class="text-primary fw-bold mb-3">Cobertura de Eventos por Ubicación</h5>
+    <div class="card p-4 mb-4 rounded-4">
+      <h5 class="fw-bold mb-3">Cobertura de Eventos por Ubicación</h5>
       <div class="table-responsive">
         <table class="table table-dark table-sm mb-0">
           <thead>
@@ -166,7 +154,7 @@
                 <td>{{ cob.ciudad }}</td>
                 <td class="fw-semibold">{{ cob.evento }}</td>
                 <td>{{ cob.teatro }}</td>
-                <td><span class="badge bg-secondary">{{ cob.estado }}</span></td>
+                <td><span [class]="claseEstadoEvento(cob.estado)">{{ cob.estado }}</span></td>
               </tr>
             }
           </tbody>
@@ -177,8 +165,8 @@
     <!-- 4. Operación y Cancelaciones -->
     <div class="row g-4">
       <div class="col-md-6">
-        <div class="card p-4 h-100 rounded-4" style="background-color: #1a1a1a; border: 1px solid #522;">
-          <h5 class="text-danger fw-bold mb-3">Reservas Canceladas</h5>
+        <div class="card p-4 h-100 rounded-4">
+          <h5 class="fw-bold mb-3" style="color:#fda4af">Reservas Canceladas</h5>
           @for (rc of rep.cancelaciones.reservasCanceladas; track rc.id_reserva) {
             <div class="border-bottom border-secondary pb-2 mb-2">
               <div class="fw-bold">#{{ rc.id_reserva }} - {{ rc.evento }} ({{ rc.cliente }})</div>
@@ -191,8 +179,8 @@
       </div>
 
       <div class="col-md-6">
-        <div class="card p-4 h-100 rounded-4" style="background-color: #1a1a1a; border: 1px solid #522;">
-          <h5 class="text-danger fw-bold mb-3">Eventos Cancelados</h5>
+        <div class="card p-4 h-100 rounded-4">
+          <h5 class="fw-bold mb-3" style="color:#fda4af">Eventos Cancelados</h5>
           @for (ec of rep.cancelaciones.eventosCancelados; track ec.codigo_evento) {
             <div class="border-bottom border-secondary pb-2 mb-2">
               <div class="fw-bold">{{ ec.codigo_evento }} - {{ ec.evento }}</div>
@@ -206,46 +194,46 @@
     </div>
   }
 
-  <!-- ================= PESTAÑA 2: GESTIÓN DE AGENTES Y CLIENTES ================= -->
+  <!-- ===== Usuarios ===== -->
   @if (pestanaActiva() === 'usuarios') {
     <div class="d-flex justify-content-between align-items-center mb-3">
-      <h4 class="text-warning fw-bold mb-0">Agentes Autorizados</h4>
-      <button (click)="mostrarFormAgente.set(!mostrarFormAgente())" class="btn btn-warning fw-bold">
-        {{ mostrarFormAgente() ? 'Cerrar Formulario' : '+ Registrar Nuevo Agente' }}
+      <h4 class="fw-bold mb-0">Agentes autorizados</h4>
+      <button (click)="mostrarFormAgente.set(!mostrarFormAgente())" class="btn btn-primary rounded-pill px-4">
+        {{ mostrarFormAgente() ? 'Cerrar formulario' : '+ Nuevo agente' }}
       </button>
     </div>
 
     <!-- Formulario Privado de Registro de Agente -->
     @if (mostrarFormAgente()) {
-      <div class="card p-4 mb-4 rounded-4" style="background-color: #1a1a1a; border: 1px solid #664d03;">
-        <h5 class="text-warning fw-bold mb-3">Alta de Nuevo Agente Operativo</h5>
+      <div class="card p-4 mb-4 rounded-4">
+        <h5 class="fw-bold mb-3">Alta de nuevo agente</h5>
         <form [formGroup]="agenteForm" (ngSubmit)="registrarAgente()">
           <div class="row g-3 mb-3">
             <div class="col-md-4">
               <label class="form-label">Identificación</label>
-              <input type="text" class="form-control bg-dark text-white border-secondary" formControlName="identificacion">
+              <input type="text" class="form-control" formControlName="identificacion">
             </div>
             <div class="col-md-8">
               <label class="form-label">Nombre Completo</label>
-              <input type="text" class="form-control bg-dark text-white border-secondary" formControlName="nombre_completo">
+              <input type="text" class="form-control" formControlName="nombre_completo">
             </div>
           </div>
 
           <div class="row g-3 mb-3">
             <div class="col-md-6">
               <label class="form-label">Correo Corporativo</label>
-              <input type="email" class="form-control bg-dark text-white border-secondary" formControlName="correo">
+              <input type="email" class="form-control" formControlName="correo">
             </div>
             <div class="col-md-6">
               <label class="form-label">Contraseña</label>
-              <input type="password" class="form-control bg-dark text-white border-secondary" formControlName="password">
+              <input type="password" class="form-control" formControlName="password">
             </div>
           </div>
 
           <div class="row g-3 mb-3">
             <div class="col-md-4">
               <label class="form-label">Ciudad</label>
-              <select class="form-select bg-dark text-white border-secondary" formControlName="id_ciudad">
+              <select class="form-select" formControlName="id_ciudad">
                 <option value="">Selecciona ciudad...</option>
                 @for (c of ciudades(); track c.id_ciudad) {
                   <option [value]="c.id_ciudad">{{ c.nombre }}</option>
@@ -254,26 +242,26 @@
             </div>
             <div class="col-md-4">
               <label class="form-label">Dirección</label>
-              <input type="text" class="form-control bg-dark text-white border-secondary" formControlName="direccion">
+              <input type="text" class="form-control" formControlName="direccion">
             </div>
             <div class="col-md-4">
               <label class="form-label">Teléfonos (coma)</label>
-              <input type="text" class="form-control bg-dark text-white border-secondary" formControlName="telefonos">
+              <input type="text" class="form-control" formControlName="telefonos">
             </div>
           </div>
 
           <div class="row g-3 mb-4">
             <div class="col-md-6">
               <label class="form-label">Comisión (%)</label>
-              <input type="number" step="0.1" class="form-control bg-dark text-white border-secondary" formControlName="comision">
+              <input type="number" step="0.1" class="form-control" formControlName="comision">
             </div>
             <div class="col-md-6">
               <label class="form-label">Años de Experiencia</label>
-              <input type="number" class="form-control bg-dark text-white border-secondary" formControlName="anios_experiencia">
+              <input type="number" class="form-control" formControlName="anios_experiencia">
             </div>
           </div>
 
-          <button type="submit" class="btn btn-warning fw-bold" [disabled]="agenteForm.invalid">
+          <button type="submit" class="btn btn-primary px-4" [disabled]="agenteForm.invalid">
             Guardar Agente
           </button>
         </form>
@@ -281,7 +269,7 @@
     }
 
     <!-- Tabla de Agentes -->
-    <div class="card p-4 mb-5 rounded-4" style="background-color: #1a1a1a; border: 1px solid #333;">
+    <div class="card p-4 mb-5 rounded-4">
       <div class="table-responsive">
         <table class="table table-dark table-hover align-middle mb-0">
           <thead>
@@ -308,8 +296,8 @@
     </div>
 
     <!-- Tabla de Clientes -->
-    <h4 class="text-primary fw-bold mb-3">Clientes Registrados</h4>
-    <div class="card p-4 rounded-4" style="background-color: #1a1a1a; border: 1px solid #333;">
+    <h4 class="fw-bold mb-3">Clientes registrados</h4>
+    <div class="card p-4 rounded-4">
       <div class="table-responsive">
         <table class="table table-dark table-hover align-middle mb-0">
           <thead>
@@ -323,7 +311,7 @@
                 <td>{{ cl.identificacion }}</td>
                 <td class="fw-semibold">{{ cl.nombre_completo }}</td>
                 <td>{{ cl.correo }}</td>
-                <td class="text-warning fw-bold">{{ cl.puntos }}</td>
+                <td class="fw-bold">{{ cl.puntos }}</td>
                 <td>{{ cl.recibir_publicidad ? 'Sí' : 'No' }}</td>
                 <td class="text-end">
                   <button (click)="eliminarUsuario(cl.identificacion, cl.nombre_completo)" class="btn btn-sm btn-outline-danger">Eliminar</button>

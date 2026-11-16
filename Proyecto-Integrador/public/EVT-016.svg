@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 320" width="800" height="320" role="img" aria-label="Humor de Fin de Año: Stand Up Navideño">
+<rect width="800" height="320" fill="#4a2147"/>
+<circle cx="501" cy="-25" r="75" fill="#c4609c" fill-opacity="0.1"/>
+<circle cx="412" cy="22" r="149" fill="#c4609c" fill-opacity="0.1"/>
+<circle cx="-7" cy="360" r="162" fill="#c4609c" fill-opacity="0.18"/>
+<circle cx="575" cy="77" r="180" fill="#c4609c" fill-opacity="0.1"/>
+<rect x="674" y="-40" width="35" height="400" transform="rotate(25 674 160.0)" fill="#c4609c" fill-opacity="0.08"/>
+<rect x="476" y="-40" width="55" height="400" transform="rotate(25 476 160.0)" fill="#c4609c" fill-opacity="0.08"/>
+<text x="400.0" y="165" text-anchor="middle" font-size="108">🎙️</text>
+<text x="400.0" y="232" text-anchor="middle" font-family="Outfit, Inter, Arial, sans-serif" font-size="30" font-weight="700" fill="#ffffff" fill-opacity="0.92">Humor de Fin de Año</text>
+</svg>

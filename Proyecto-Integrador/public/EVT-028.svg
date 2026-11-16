@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 320" width="800" height="320" role="img" aria-label="Festival de Jazz del Pacífico">
+<rect width="800" height="320" fill="#4a2260"/>
+<circle cx="277" cy="163" r="101" fill="#b25bd0" fill-opacity="0.1"/>
+<circle cx="124" cy="194" r="166" fill="#b25bd0" fill-opacity="0.14"/>
+<circle cx="266" cy="347" r="72" fill="#b25bd0" fill-opacity="0.1"/>
+<circle cx="312" cy="17" r="135" fill="#b25bd0" fill-opacity="0.18"/>
+<rect x="620" y="-40" width="40" height="400" transform="rotate(25 620 160.0)" fill="#b25bd0" fill-opacity="0.08"/>
+<rect x="319" y="-40" width="44" height="400" transform="rotate(25 319 160.0)" fill="#b25bd0" fill-opacity="0.08"/>
+<text x="400.0" y="165" text-anchor="middle" font-size="108">🎷</text>
+<text x="400.0" y="220" text-anchor="middle" font-family="Outfit, Inter, Arial, sans-serif" font-size="30" font-weight="700" fill="#ffffff" fill-opacity="0.92">Festival de Jazz del</text><text x="400.0" y="254" text-anchor="middle" font-family="Outfit, Inter, Arial, sans-serif" font-size="30" font-weight="700" fill="#ffffff" fill-opacity="0.92">Pacífico</text>
+</svg>

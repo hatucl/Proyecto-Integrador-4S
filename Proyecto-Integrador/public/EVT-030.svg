@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 320" width="800" height="320" role="img" aria-label="Torneo Nacional de Fighting Games">
+<rect width="800" height="320" fill="#1f1e45"/>
+<circle cx="635" cy="56" r="131" fill="#6a63d8" fill-opacity="0.14"/>
+<circle cx="242" cy="173" r="76" fill="#6a63d8" fill-opacity="0.18"/>
+<circle cx="361" cy="254" r="70" fill="#6a63d8" fill-opacity="0.18"/>
+<circle cx="-3" cy="357" r="173" fill="#6a63d8" fill-opacity="0.18"/>
+<rect x="52" y="-40" width="64" height="400" transform="rotate(25 52 160.0)" fill="#6a63d8" fill-opacity="0.08"/>
+<rect x="242" y="-40" width="61" height="400" transform="rotate(25 242 160.0)" fill="#6a63d8" fill-opacity="0.08"/>
+<text x="400.0" y="165" text-anchor="middle" font-size="108">🥊</text>
+<text x="400.0" y="220" text-anchor="middle" font-family="Outfit, Inter, Arial, sans-serif" font-size="30" font-weight="700" fill="#ffffff" fill-opacity="0.92">Torneo Nacional de</text><text x="400.0" y="254" text-anchor="middle" font-family="Outfit, Inter, Arial, sans-serif" font-size="30" font-weight="700" fill="#ffffff" fill-opacity="0.92">Fighting Games</text>
+</svg>

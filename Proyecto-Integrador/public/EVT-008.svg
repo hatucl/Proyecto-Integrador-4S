@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 320" width="800" height="320" role="img" aria-label="Carnaval Vallenato de Barranquilla">
+<rect width="800" height="320" fill="#4a2260"/>
+<circle cx="146" cy="180" r="126" fill="#b25bd0" fill-opacity="0.18"/>
+<circle cx="765" cy="302" r="98" fill="#b25bd0" fill-opacity="0.18"/>
+<circle cx="357" cy="170" r="178" fill="#b25bd0" fill-opacity="0.18"/>
+<circle cx="544" cy="251" r="69" fill="#b25bd0" fill-opacity="0.1"/>
+<rect x="292" y="-40" width="37" height="400" transform="rotate(25 292 160.0)" fill="#b25bd0" fill-opacity="0.08"/>
+<rect x="274" y="-40" width="67" height="400" transform="rotate(25 274 160.0)" fill="#b25bd0" fill-opacity="0.08"/>
+<text x="400.0" y="165" text-anchor="middle" font-size="108">🪗</text>
+<text x="400.0" y="220" text-anchor="middle" font-family="Outfit, Inter, Arial, sans-serif" font-size="30" font-weight="700" fill="#ffffff" fill-opacity="0.92">Carnaval Vallenato de</text><text x="400.0" y="254" text-anchor="middle" font-family="Outfit, Inter, Arial, sans-serif" font-size="30" font-weight="700" fill="#ffffff" fill-opacity="0.92">Barranquilla</text>
+</svg>

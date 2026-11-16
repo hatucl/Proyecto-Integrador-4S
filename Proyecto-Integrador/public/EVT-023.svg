@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 320" width="800" height="320" role="img" aria-label="Feria de la Caña y la Salsa de Palmira">
+<rect width="800" height="320" fill="#4a2260"/>
+<circle cx="-26" cy="97" r="99" fill="#b25bd0" fill-opacity="0.18"/>
+<circle cx="200" cy="144" r="114" fill="#b25bd0" fill-opacity="0.18"/>
+<circle cx="692" cy="207" r="142" fill="#b25bd0" fill-opacity="0.14"/>
+<circle cx="401" cy="262" r="164" fill="#b25bd0" fill-opacity="0.18"/>
+<rect x="92" y="-40" width="26" height="400" transform="rotate(25 92 160.0)" fill="#b25bd0" fill-opacity="0.08"/>
+<rect x="221" y="-40" width="70" height="400" transform="rotate(25 221 160.0)" fill="#b25bd0" fill-opacity="0.08"/>
+<text x="400.0" y="165" text-anchor="middle" font-size="108">🌾</text>
+<text x="400.0" y="220" text-anchor="middle" font-family="Outfit, Inter, Arial, sans-serif" font-size="30" font-weight="700" fill="#ffffff" fill-opacity="0.92">Feria de la Caña y la</text><text x="400.0" y="254" text-anchor="middle" font-family="Outfit, Inter, Arial, sans-serif" font-size="30" font-weight="700" fill="#ffffff" fill-opacity="0.92">Salsa de Palmira</text>
+</svg>

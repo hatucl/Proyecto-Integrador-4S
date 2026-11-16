@@ -1,80 +1,90 @@
-<div class="container py-5">
+<div class="py-5">
   @if (authService.currentUser(); as user) {
     <div class="row g-4">
-      <!-- Datos Personales desde PostgreSQL -->
-      <div class="col-md-4">
-        <div class="card p-4 shadow rounded-4 text-white" style="background-color: #1a1a1a; border: 1px solid #333;">
-          <div class="text-center mb-3">
-            <div class="display-4 mb-2">👤</div>
-            <h4 class="fw-bold mb-0">{{ user.nombre_completo }}</h4>
-            <span class="badge bg-primary text-uppercase mt-2">{{ user.role }}</span>
+      <!-- Datos personales -->
+      <div class="col-lg-4">
+        <div class="card p-4 text-center">
+          <span class="avatar avatar-lg mx-auto mb-3">{{ iniciales(user.nombre_completo) }}</span>
+          <h4 class="fw-bold mb-1">{{ user.nombre_completo }}</h4>
+          <span class="role-badge mx-auto">{{ etiquetaRol(user.role) }}</span>
+
+          <hr class="border-secondary opacity-25 my-4">
+
+          <div class="text-start">
+            <p class="mb-0 text-secondary small">Identificación</p>
+            <p class="fw-semibold">{{ user.identificacion }}</p>
+
+            <p class="mb-0 text-secondary small">Correo electrónico</p>
+            <p class="fw-semibold text-break">{{ user.correo }}</p>
+
+            <p class="mb-0 text-secondary small">Dirección</p>
+            <p class="fw-semibold">{{ user.direccion }}</p>
+
+            @if (user.role === 'client') {
+              <p class="mb-0 text-secondary small">Puntos acumulados</p>
+              <p class="fw-bold fs-5 mb-0 text-gradient">{{ user.puntos }} pts</p>
+            }
           </div>
-          <hr class="border-secondary">
-          <p class="mb-1 text-secondary small">Identificación</p>
-          <p class="fw-semibold">{{ user.identificacion }}</p>
 
-          <p class="mb-1 text-secondary small">Correo Electrónico</p>
-          <p class="fw-semibold">{{ user.correo }}</p>
-
-          <p class="mb-1 text-secondary small">Dirección</p>
-          <p class="fw-semibold">{{ user.direccion }}</p>
-
-          @if (user.role === 'client') {
-            <p class="mb-1 text-secondary small">Puntos Acumulados</p>
-            <p class="fw-bold text-warning">{{ user.puntos }} pts</p>
-          }
-
-          <button (click)="authService.cerrarSesion()" class="btn btn-outline-danger w-100 mt-3">
-            Cerrar Sesión
-          </button>
+          <button (click)="authService.cerrarSesion()" class="btn btn-outline-danger w-100 mt-4">Cerrar sesión</button>
         </div>
       </div>
 
-      <!-- Historial Real de Reservas -->
-      <div class="col-md-8">
-        <div class="card p-4 shadow rounded-4 text-white" style="background-color: #1a1a1a; border: 1px solid #333;">
-          <h4 class="text-primary fw-bold mb-4">Mis Reservas Registradas</h4>
-
-          @if (user.role !== 'client') {
-            <div class="alert alert-info">
-              Has iniciado sesión con perfil administrativo/operativo. Usa el <strong>Panel de Gestión</strong> en el menú superior.
+      <!-- Reservas -->
+      <div class="col-lg-8">
+        @if (user.role !== 'client') {
+          <div class="card p-4">
+            <h4 class="fw-bold mb-2">Cuenta {{ etiquetaRol(user.role).toLowerCase() }}</h4>
+            <p class="text-secondary">Las reservas se gestionan desde el panel de administración.</p>
+            <div>
+              <a routerLink="/agent" class="btn btn-primary">Ir a gestión de eventos</a>
             </div>
+          </div>
+        } @else {
+          <div class="row g-3 mb-4">
+            <div class="col-4"><div class="stat-card"><small>Reservas</small><h3>{{ reservas().length }}</h3></div></div>
+            <div class="col-4"><div class="stat-card"><small>Entradas activas</small><h3>{{ entradasActivas() }}</h3></div></div>
+            <div class="col-4"><div class="stat-card"><small>Total</small><h3 class="fs-4 pt-1">${{ totalGastado() | number:'1.0-0' }}</h3></div></div>
+          </div>
+
+          <div class="section-title"><h2 class="fs-4">Mis reservas</h2></div>
+
+          @if (cargando()) {
+            <div class="empty-state"><div class="spinner-ring"></div>Cargando tus reservas…</div>
+          } @else if (errorCarga()) {
+            <div class="alert alert-danger">No se pudieron cargar tus reservas. Inténtalo de nuevo más tarde.</div>
           } @else {
             @for (reserva of reservas(); track reserva.id_reserva) {
-              <div class="border border-secondary rounded-3 p-3 mb-3 bg-dark">
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                  <span class="badge"
-                    [class.bg-warning]="reserva.estado === 'Reservada'"
-                    [class.text-dark]="reserva.estado === 'Reservada'"
-                    [class.bg-success]="reserva.estado === 'Confirmada'"
-                    [class.bg-danger]="reserva.estado === 'Cancelada'">
-                    {{ reserva.estado }}
-                  </span>
-                  <span class="text-secondary small">Reserva #{{ reserva.id_reserva }} • {{ reserva.fecha_reserva | date:'short' }}</span>
+              <div class="res-card">
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2">
+                  <span [class]="claseEstado(reserva.estado)">{{ reserva.estado }}</span>
+                  <span class="text-secondary small">Reserva #{{ reserva.id_reserva }} · {{ reserva.fecha_reserva | date:'d MMM y, h:mm a' }}</span>
                 </div>
 
                 <h5 class="fw-bold text-white mb-1">{{ reserva.nombre_evento }}</h5>
                 <p class="text-secondary small mb-2">
-                  📍 {{ reserva.teatro }} ({{ reserva.ciudad }}) • 📅 Evento: {{ reserva.fecha_inicio | date:'mediumDate' }}
+                  📍 {{ reserva.teatro }} ({{ reserva.ciudad }}) · 📅 {{ reserva.fecha_inicio | date:'EEE d MMM y, h:mm a' }}
                 </p>
 
                 @if (reserva.observaciones) {
-                  <p class="small text-info mb-2">📝 Obs: {{ reserva.observaciones }}</p>
+                  <p class="small mb-2" style="color: var(--violet-soft)">📝 {{ reserva.observaciones }}</p>
                 }
 
-                <div class="d-flex justify-content-between align-items-center border-top border-secondary pt-2 mt-2">
-                  <span class="text-light">Entradas: <strong>{{ reserva.numero_entradas }}</strong></span>
-                  <span class="fw-bold text-success fs-5">Total: ${{ reserva.valor_total | number }}</span>
+                <div class="d-flex justify-content-between align-items-center border-top border-secondary border-opacity-25 pt-2 mt-2">
+                  <span>{{ reserva.numero_entradas }} {{ reserva.numero_entradas === 1 ? 'entrada' : 'entradas' }}</span>
+                  <span class="fw-bold fs-5 text-white">${{ reserva.valor_total | number:'1.0-0' }}</span>
                 </div>
               </div>
             } @empty {
-              <div class="text-center py-5">
-                <p class="text-secondary mb-3">Aún no tienes reservas registradas en la base de datos.</p>
-                <a routerLink="/" class="btn btn-primary">Ver Eventos Disponibles</a>
+              <div class="empty-state">
+                <div class="big">🎟️</div>
+                <h5 class="text-white">Aún no tienes reservas</h5>
+                <p>Explora los eventos disponibles y reserva tus primeras entradas.</p>
+                <a routerLink="/" class="btn btn-primary">Ver eventos</a>
               </div>
             }
           }
-        </div>
+        }
       </div>
     </div>
   }

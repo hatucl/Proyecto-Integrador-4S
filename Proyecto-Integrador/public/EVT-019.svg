@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 320" width="800" height="320" role="img" aria-label="Carnaval de la Luz: Desfile Inaugural">
+<rect width="800" height="320" fill="#4a2260"/>
+<circle cx="825" cy="329" r="128" fill="#b25bd0" fill-opacity="0.14"/>
+<circle cx="189" cy="262" r="165" fill="#b25bd0" fill-opacity="0.14"/>
+<circle cx="837" cy="-2" r="164" fill="#b25bd0" fill-opacity="0.14"/>
+<circle cx="713" cy="155" r="169" fill="#b25bd0" fill-opacity="0.1"/>
+<rect x="499" y="-40" width="40" height="400" transform="rotate(25 499 160.0)" fill="#b25bd0" fill-opacity="0.08"/>
+<rect x="396" y="-40" width="33" height="400" transform="rotate(25 396 160.0)" fill="#b25bd0" fill-opacity="0.08"/>
+<text x="400.0" y="165" text-anchor="middle" font-size="108">🎉</text>
+<text x="400.0" y="232" text-anchor="middle" font-family="Outfit, Inter, Arial, sans-serif" font-size="30" font-weight="700" fill="#ffffff" fill-opacity="0.92">Carnaval de la Luz</text>
+</svg>

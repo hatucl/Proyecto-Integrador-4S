@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 320" width="800" height="320" role="img" aria-label="Gran Fiesta de Fin de Año: Salsa &amp; Son">
+<rect width="800" height="320" fill="#2e1f57"/>
+<circle cx="159" cy="339" r="181" fill="#7c5cd6" fill-opacity="0.18"/>
+<circle cx="382" cy="49" r="139" fill="#7c5cd6" fill-opacity="0.14"/>
+<circle cx="316" cy="-13" r="100" fill="#7c5cd6" fill-opacity="0.18"/>
+<circle cx="601" cy="251" r="74" fill="#7c5cd6" fill-opacity="0.1"/>
+<rect x="792" y="-40" width="57" height="400" transform="rotate(25 792 160.0)" fill="#7c5cd6" fill-opacity="0.08"/>
+<rect x="379" y="-40" width="49" height="400" transform="rotate(25 379 160.0)" fill="#7c5cd6" fill-opacity="0.08"/>
+<text x="400.0" y="165" text-anchor="middle" font-size="108">🥂</text>
+<text x="400.0" y="220" text-anchor="middle" font-family="Outfit, Inter, Arial, sans-serif" font-size="30" font-weight="700" fill="#ffffff" fill-opacity="0.92">Gran Fiesta de Fin de</text><text x="400.0" y="254" text-anchor="middle" font-family="Outfit, Inter, Arial, sans-serif" font-size="30" font-weight="700" fill="#ffffff" fill-opacity="0.92">Año</text>
+</svg>

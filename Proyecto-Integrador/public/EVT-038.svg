@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 320" width="800" height="320" role="img" aria-label="Festival Gastronómico Sabores de Medellín">
+<rect width="800" height="320" fill="#43204f"/>
+<circle cx="54" cy="84" r="115" fill="#b254b8" fill-opacity="0.14"/>
+<circle cx="157" cy="29" r="178" fill="#b254b8" fill-opacity="0.1"/>
+<circle cx="206" cy="337" r="158" fill="#b254b8" fill-opacity="0.18"/>
+<circle cx="450" cy="9" r="80" fill="#b254b8" fill-opacity="0.14"/>
+<rect x="347" y="-40" width="39" height="400" transform="rotate(25 347 160.0)" fill="#b254b8" fill-opacity="0.08"/>
+<rect x="678" y="-40" width="37" height="400" transform="rotate(25 678 160.0)" fill="#b254b8" fill-opacity="0.08"/>
+<text x="400.0" y="165" text-anchor="middle" font-size="108">🍜</text>
+<text x="400.0" y="220" text-anchor="middle" font-family="Outfit, Inter, Arial, sans-serif" font-size="30" font-weight="700" fill="#ffffff" fill-opacity="0.92">Festival Gastronómico</text><text x="400.0" y="254" text-anchor="middle" font-family="Outfit, Inter, Arial, sans-serif" font-size="30" font-weight="700" fill="#ffffff" fill-opacity="0.92">Sabores de Medellín</text>
+</svg>
