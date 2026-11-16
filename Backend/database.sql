@@ -1,3 +1,5 @@
+SET client_encoding = 'UTF8';
+
 CREATE TABLE paises (
     id_pais SERIAL PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL UNIQUE
@@ -171,7 +173,7 @@ INSERT INTO clientes (identificacion, puntos, recibir_publicidad) VALUES
 
 -- Eventos
 INSERT INTO eventos (codigo_evento, nombre, descripcion, teatro, id_ciudad, fecha_inicio, fecha_fin, capacidad_total, precio_base, observaciones, estado, categoria, destacado, imagen_url, id_agente_creador) VALUES
-('EVT-001', 'Final Nacional eSports Valorant 2026', 'Torneo presencial de los mejores equipos del pais.', 'Teatro Municipal', 2, '2026-11-25 18:00', '2026-11-25 23:00', 500, 45000.00, 'Apertura de puertas 1 hora antes', 'En Boleteria', 'Gaming', TRUE, '/eventos/EVT-001.svg', '2001'),
+('EVT-001', 'Final Nacional eSports Valorant 2026', 'Torneo presencial de los mejores equipos del pais.', 'Teatro Municipal', 2, '2026-11-25 18:00', '2026-11-25 23:00', 500, 45000.00, 'Apertura de puertas 1 hora antes', 'En Boletería', 'Gaming', TRUE, '/eventos/EVT-001.svg', '2001'),
 ('EVT-002', 'Concierto Sinfónico Gamer', 'Orquesta en vivo interpretando bandas sonoras de videojuegos.', 'Teatro Jorge Isaacs', 2, '2026-12-10 20:00', '2026-12-10 22:30', 800, 85000.00, 'Evento para toda la familia', 'Programado', 'Concierto', TRUE, '/eventos/EVT-002.svg', '2001'),
 ('EVT-003', 'Noche de Salsa Caleña', 'Las mejores orquestas de la capital mundial de la salsa en una noche de baile, sabor y orgullo vallecaucano.', 'Teatro Municipal Enrique Buenaventura', 2, '2026-02-14 20:00', '2026-02-14 23:30', 600, 70000.00, 'Concierto realizado con lleno total.', 'Finalizado', 'Concierto', FALSE, '/eventos/EVT-003.svg', '2001'),
 ('EVT-004', 'Risas sin Filtro: Stand Up Comedy', 'Cuatro comediantes, cero censura. Una función de humor para reírse de la vida diaria colombiana.', 'Teatro Colsubsidio', 3, '2026-03-07 19:30', '2026-03-07 21:30', 700, 60000.00, 'Función para mayores de 15 años.', 'Finalizado', 'Comedia', FALSE, '/eventos/EVT-004.svg', '2003'),
@@ -381,3 +383,47 @@ FROM (VALUES
   ('3003', 'EVT-015', '2026-11-14 17:09', 2, 'Silla de ruedas, requiere acceso preferencial', 'Reservada')
 ) AS v(cliente, evento, fecha, entradas, obs, estado)
 JOIN eventos e ON e.codigo_evento = v.evento;
+
+UPDATE eventos SET imagen_url = CASE codigo_evento
+  WHEN 'EVT-001' THEN 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&q=80'
+  WHEN 'EVT-002' THEN 'https://images.unsplash.com/photo-1465847899084-d164df4dedc6?w=800&q=80'
+  WHEN 'EVT-003' THEN 'https://images.unsplash.com/photo-1504609813442-a8924e83f76e?w=800&q=80'
+  WHEN 'EVT-004' THEN 'https://images.unsplash.com/photo-1585699324551-f6c309eedeca?w=800&q=80'
+  WHEN 'EVT-005' THEN 'https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800&q=80'
+  WHEN 'EVT-006' THEN 'https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=800&q=80'
+  WHEN 'EVT-007' THEN 'https://images.unsplash.com/photo-1518834107812-67b0b7c58434?w=800&q=80'
+  WHEN 'EVT-008' THEN 'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=800&q=80'
+  WHEN 'EVT-009' THEN 'https://images.unsplash.com/photo-1507838153414-b4b713384a76?w=800&q=80'
+  WHEN 'EVT-010' THEN 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800&q=80'
+  WHEN 'EVT-011' THEN 'https://images.unsplash.com/photo-1503095396549-807759245b35?w=800&q=80'
+  WHEN 'EVT-012' THEN 'https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?w=800&q=80'
+  WHEN 'EVT-013' THEN 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=800&q=80'
+  WHEN 'EVT-014' THEN 'https://images.unsplash.com/photo-1512389142860-9c449e58a543?w=800&q=80'
+  WHEN 'EVT-015' THEN 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&q=80'
+  WHEN 'EVT-016' THEN 'https://images.unsplash.com/photo-1527224857830-43a7acc85260?w=800&q=80'
+  WHEN 'EVT-017' THEN 'https://images.unsplash.com/photo-1513885535751-8b9238bd345a?w=800&q=80'
+  WHEN 'EVT-018' THEN 'https://images.unsplash.com/photo-1467810563316-b5476525c0f9?w=800&q=80'
+  WHEN 'EVT-019' THEN 'https://images.unsplash.com/photo-1514533450685-4493e01d1fdc?w=800&q=80'
+  WHEN 'EVT-020' THEN 'https://images.unsplash.com/photo-1552820728-8b83bb6b773f?w=800&q=80'
+  WHEN 'EVT-021' THEN 'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=800&q=80'
+  WHEN 'EVT-022' THEN 'https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?w=800&q=80'
+  WHEN 'EVT-023' THEN 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&q=80'
+  WHEN 'EVT-024' THEN 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&q=80'
+  WHEN 'EVT-025' THEN 'https://images.unsplash.com/photo-1510915361894-db8b60106cb1?w=800&q=80'
+  WHEN 'EVT-026' THEN 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800&q=80'
+  WHEN 'EVT-027' THEN 'https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=800&q=80'
+  WHEN 'EVT-028' THEN 'https://images.unsplash.com/photo-1511192336575-5a79af67a629?w=800&q=80'
+  WHEN 'EVT-029' THEN 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800&q=80'
+  WHEN 'EVT-030' THEN 'https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=800&q=80'
+  WHEN 'EVT-031' THEN 'https://images.unsplash.com/photo-1580809361436-42a7ec204889?w=800&q=80'
+  WHEN 'EVT-032' THEN 'https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=800&q=80'
+  WHEN 'EVT-033' THEN 'https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?w=800&q=80'
+  WHEN 'EVT-034' THEN 'https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=800&q=80'
+  WHEN 'EVT-035' THEN 'https://images.unsplash.com/photo-1525268771113-32d9e9021a97?w=800&q=80'
+  WHEN 'EVT-036' THEN 'https://images.unsplash.com/photo-1612036782180-6f0b6cd846fe?w=800&q=80'
+  WHEN 'EVT-037' THEN 'https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=800&q=80'
+  WHEN 'EVT-038' THEN 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=80'
+  WHEN 'EVT-039' THEN 'https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=800&q=80'
+  WHEN 'EVT-040' THEN 'https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=800&q=80'
+END
+WHERE codigo_evento BETWEEN 'EVT-001' AND 'EVT-040';
